@@ -1,8 +1,9 @@
+import "@/utils/dayjsLocaleConfig"
 import "@/styles/global.css"
 
 import { View, StatusBar } from "react-native"
-import { Slot } from "expo-router"
 import { Loading } from "@/components/loading"
+import { Slot } from "expo-router"
 
 import {
     useFonts,
