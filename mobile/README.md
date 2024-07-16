@@ -18,7 +18,7 @@
 <br>
 
 <p align="center"> 
-    <img alt="Thumbnail MyGoals App" src=".github/preview.jpg" width="100%">
+    <img alt="Thumbnail Plann.er App" src=".github/preview.png" width="100%">
 </p>
 
 ### 💻 Sobre o projeto
