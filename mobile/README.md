@@ -25,6 +25,8 @@
 
 O projeto é um app para montar planos de viagem com amigos, registrar atividades e links úteis.
 
+Tem como objetivo ajudar o usuário a organizar viagens à trabalho ou lazer. O usuário pode criar uma viagem com nome, data de início e fim. Dentro da viagem o usuário pode planejar sua viagem adicionando atividades para realizar em cada dia.
+
 ### 🚀 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
@@ -37,12 +39,15 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ### 🚧 Features
 
-- [x] Tela inicial para escolher data e convidar amigos
+- [x] Tela inicial para escolher data, local e convidar amigos
 - [x] Tela inicial para listar atividades e listar links
 - [x] Adicionar atividades
 - [x] Adicionar links
+- [x] Receber email para confirmar a nova viagem
+- [x] Convidados são direcionados para um modal de confirmação de nome e email
 - [x] Checar se os participantes aceitaram o convite
-- [ ] Popup de erro e sucesso
+- [x] Novos participantes podem ser convidados após a criação do plano de viagem
+- [ ] Personalizar popup de erro e sucesso
 
 ### 📜 Licença
 
