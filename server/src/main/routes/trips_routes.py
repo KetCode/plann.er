@@ -43,3 +43,13 @@ def confirm_trip(tripId):
     response = controller.confirm(tripId)
 
     return jsonify(response["body"]), response["status_code"]
+
+@trips_routes_bp.route("/trips/<tripId>/link", methods=["POST"])
+def create_trip_link(tripId):
+    conn = db_connection_handler.get_connection()
+    links_repository = LinksRepository(conn)
+    controller = LinkCreator(links_repository)
+
+    response = controller.create(request.json, tripId)
+
+    return jsonify(response["body"]), response["status_code"]
