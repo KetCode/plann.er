@@ -25,7 +25,7 @@ class ParticipantCreator:
             }
 
             self.__emails_repository.registry_email(emails_infos)
-            self.__participants_repository.registry_participant(participant_infos)
+            self.__participants_repository.registry_participants(participant_infos)
 
             return {
                 "body": { "participant_id": participant_id },
