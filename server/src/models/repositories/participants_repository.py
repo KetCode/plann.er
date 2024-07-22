@@ -35,4 +35,13 @@ class ParticipantsRepository:
         participants = cursor.fetchall()
         return participants
     
-    
+    def update_participants_status(self, participant_id: str) -> None:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            '''
+                UPDATE participants
+                    SET is_confirmed = 1
+                WHERE
+                    id = ?
+            ''', (participant_id,)
+        )
