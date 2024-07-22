@@ -73,7 +73,8 @@ def find_trip_link(tripId):
 def invite_to_trip(tripId):
     conn = db_connection_handler.get_connection()
     participants_repository = ParticipantsRepository(conn)
-    controller = ParticipantCreator(participants_repository)
+    emails_repository = EmailsToInviteRepository(conn)
+    controller = ParticipantCreator(participants_repository, emails_repository)
 
     response = controller.create(request.json, tripId)
 
