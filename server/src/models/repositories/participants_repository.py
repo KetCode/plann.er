@@ -30,7 +30,7 @@ class ParticipantsRepository:
                 FROM participants as p
                 JOIN emails_to_invite as e ON e.id = p.emails_to_invite_id
                 WHERE p.trip_id = ?
-            ''', (trip_id)
+            ''', (trip_id,)
         )
         participants = cursor.fetchall()
         return participants
