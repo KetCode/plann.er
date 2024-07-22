@@ -22,3 +22,10 @@ class ActivitiesRepository:
         )
         self.__conn.commit()
 
+    def find_activities_from_trip(self, trip_id: str) -> List[Tuple]:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            '''SELECT * FROM activities WHERE trip_id = ?''', (trip_id,)
+        )
+        activities = cursor.fetchall()
+        return activities
