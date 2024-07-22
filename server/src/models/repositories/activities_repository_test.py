@@ -24,3 +24,11 @@ def test_registry_activity():
 
     activities_repository.registry_activity(activity_infos)
 
+@pytest.mark.skip(reason="interação com banco")
+def test_find_activities_from_trip():
+    conn = db_connection_handler.get_connection()
+    activities_repository = ActivitiesRepository(conn)
+
+    activities = activities_repository.find_activities_from_trip(trip_id)
+    print()
+    print(activities)
