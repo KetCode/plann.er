@@ -33,3 +33,9 @@ def test_find_participants():
     print()
     print(participants)
 
+@pytest.mark.skip(reason="interação com banco")
+def test_update_participants_status():
+    conn = db_connection_handler.get_connection()
+    participant_repository = ParticipantsRepository(conn)
+
+    participant_repository.update_participants_status(p_id)
