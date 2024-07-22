@@ -1,5 +1,5 @@
 from sqlite3 import Connection
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 class ParticipantsRepository:
     def __init__(self, conn: Connection) -> None:
