@@ -24,11 +24,11 @@ def test_registry_participants():
     participant_repository.registry_participants(participant_infos)
 
 @pytest.mark.skip(reason="interação com banco")
-def test_find_participants():
+def test_find_participants_from_trip():
     conn = db_connection_handler.get_connection()
     participant_repository = ParticipantsRepository(conn)
 
-    participants = participant_repository.find_participants(trip_id)
+    participants = participant_repository.find_participants_from_trip(trip_id)
     
     print()
     print(participants)

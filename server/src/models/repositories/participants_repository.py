@@ -22,7 +22,7 @@ class ParticipantsRepository:
         )
         self.__conn.commit()
 
-    def find_participants(self, trip_id: str) -> List[Tuple]:
+    def find_participants_from_trip(self, trip_id: str) -> List[Tuple]:
         cursor = self.__conn.cursor()
         cursor.execute(
             '''
