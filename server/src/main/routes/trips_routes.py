@@ -7,6 +7,7 @@ from src.controllers.link_creator import LinkCreator
 from src.controllers.link_finder import LinkFinder
 from src.controllers.participant_creator import ParticipantCreator
 from src.controllers.participant_finder import ParticipantFinder
+from src.controllers.participant_confirmer import ParticipantConfirmer
 from src.controllers.activity_creator import ActivityCreator
 from src.controllers.activity_finder import ActivityFinder
 
@@ -109,5 +110,15 @@ def get_trip_activities(tripId):
     controller = ActivityFinder(activities_repository)
 
     response = controller.find_activities_from_trip(tripId)
+
+    return jsonify(response["body"]), response["status_code"]
+
+@trips_routes_bp.route("/participants/<participantId>/confirm", methods=["PATCH"])
+def confirm_participant(participantId):
+    conn = db_connection_handler.get_connection()
+    participants_repository = ParticipantsRepository(conn)
+    controller = ParticipantConfirmer(participants_repository)
+
+    response = controller.confirm(participantId)
 
     return jsonify(response["body"]), response["status_code"]
