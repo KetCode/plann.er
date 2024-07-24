@@ -2,6 +2,8 @@ import uuid
 from typing import Dict
 from src.drivers.email_sender import send_email
 
+from src.main.server.config import PORT
+
 class TripCreator:
     def __init__(self, trip_repository, emails_repository) -> None:
         self.__trip_repository = trip_repository
@@ -26,7 +28,7 @@ class TripCreator:
 
             send_email(
                 [body["owner_email"]],
-                f"http://localhost:3000/trips/{trip_id}/confirm"
+                f"http://localhost:{PORT}/trips/{trip_id}/confirm"
             )
 
             return {
