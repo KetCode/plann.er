@@ -26,7 +26,7 @@ Através do server é possível criar uma viagem e enviar email de confirmação
 <br>
 
 <p align="center"> 
-    <img alt="email for trip confirmation" src=".github/image.png" width="100%">
+    <img alt="email for trip confirmation" src=".github/image.png" width="60%">
 </p>
 
 ### 🚀 Tecnologias
