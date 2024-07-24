@@ -12,14 +12,21 @@ def send_email(to_addrs, body):
     msg["to"] = ', '.join(to_addrs)
 
     msg["Subject"] = "Confirmação de Viagem!"
-    msg.attach(MIMEText(body, 'plain'))
+    msg.attach(MIMEText(body, 'html'))
 
-    server = smtplib.SMTP("smtp.ethereal.email", 587)
-    server.starttls()
-    server.login(login, password)
-    text = msg.as_string()
+    try:
 
-    for email in to_addrs:
-        server.sendmail(from_addr, email, text)
+        server = smtplib.SMTP("smtp.ethereal.email", 587)
+        server.starttls()
+        server.login(login, password)
+        text = msg.as_string()
 
-    server.quit()
+        for email in to_addrs:
+            server.sendmail(from_addr, email, text)
+
+        server.quit()
+    except Exception as exception:
+        return {
+                "body": { "error": "Bad Request", "message": str(exception) },
+                "status_code": 400
+            }
