@@ -224,7 +224,7 @@ export default function Trip() {
       <View className="w-full absolute -bottom-1 self-center justify-end pb-5 z-10 bg-zinc-950">
         <View className="w-full flex-row bg-zinc-900 p-4 rounded-lg border border-zinc-800 gap-2">
           <Button
-            className="flex-1"
+            style={{ flex: 1 }}
             onPress={() => setOption("activity")}
             variant={option === "activity" ? "primary" : "secondary"}
           >
@@ -238,7 +238,7 @@ export default function Trip() {
           </Button>
 
           <Button
-            className="flex-1"
+            style={{ flex: 1 }}
             onPress={() => setOption("details")}
             variant={option === "details" ? "primary" : "secondary"}
           >
