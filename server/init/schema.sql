@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS 'trips' (
     id TEXT PRIMARY KEY,
     destination TEXT NOT NULL,
-    start_date DATETIME,
-    end_date DATETIME,
+    starts_at DATETIME,
+    ends_at DATETIME,
     owner_name TEXT NOT NULL,
     owner_email TEXT NOT NULL,
-    status INTEGER -- 1 para verdadeiro (true), 0 para falso (false)
+    is_confirmed INTEGER -- 1 para verdadeiro (true), 0 para falso (false)
 );
 
 CREATE TABLE IF NOT EXISTS 'emails_to_invite' (
