@@ -17,7 +17,7 @@ class TripFinder:
                         "destination": trip[1],
                         "starts_at": trip[2],
                         "ends_at": trip[3],
-                        "status": trip[6]
+                        "is_confirmed": trip[6]
                     }
                 },
                 "status_code": 200

@@ -10,14 +10,14 @@ class TripsRepository:
         cursor.execute(
             '''
                 INSERT INTO trips
-                    (id, destination, start_date, end_date, owner_name, owner_email)
+                    (id, destination, starts_at, ends_at, owner_name, owner_email)
                 VALUES
                     (?, ?, ?, ?, ?, ?)
             ''', (
                 trips_infos["id"],
                 trips_infos["destination"],
-                trips_infos["start_date"],
-                trips_infos["end_date"],
+                trips_infos["starts_at"],
+                trips_infos["ends_at"],
                 trips_infos["owner_name"],
                 trips_infos["owner_email"],
             )
@@ -37,7 +37,7 @@ class TripsRepository:
         cursor.execute(
             ''' 
                 UPDATE trips
-                    SET status = 1
+                    SET is_confirmed = 1
                 WHERE
                     id = ?
             ''', (trip_id,)
