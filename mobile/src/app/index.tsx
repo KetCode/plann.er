@@ -126,7 +126,7 @@ export default function Index(){
           Alert.alert("Nova viagem", "Viagem criada com sucesso!", [
             {
               text: "OK. Continuar.",
-              onPress: () => saveTrip(newTrip.tripId),
+              onPress: () => saveTrip(newTrip.id),
             },
           ])
         } catch (error) {

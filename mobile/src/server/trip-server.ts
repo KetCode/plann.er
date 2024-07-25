@@ -28,7 +28,7 @@ async function create({
     emails_to_invite,
   }: TripCreate) {
     try {
-      const { data } = await api.post<{ tripId: string }>("/trips", {
+      const { data } = await api.post<{ id: string }>("/trips", {
         destination,
         starts_at,
         ends_at,
