@@ -12,7 +12,7 @@ type LinkCreate = Omit<Link, "id"> & {
 
 async function getLinksByTripId(tripId: string) {
   try {
-    const { data } = await api.get<{ links: Link[] }>(`/trips/${tripId}/links`)
+    const { data } = await api.get<{ links: Link[] }>(`/trips/${tripId}/link`)
     return data.links
   } catch (error) {
     throw error
@@ -22,7 +22,7 @@ async function getLinksByTripId(tripId: string) {
 async function create({ tripId, title, url }: LinkCreate) {
   try {
     const { data } = await api.post<{ linkId: string }>(
-      `/trips/${tripId}/links`,
+      `/trips/${tripId}/link`,
       { title, url }
     )
 
