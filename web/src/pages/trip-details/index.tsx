@@ -1,6 +1,7 @@
 import { Calendar, CircleCheck, CircleDashed, Link2, MapPin, Plus, Settings2, Tag, UserCog, X } from "lucide-react";
 import { useState } from "react";
 import { CreateActivityModal } from "./create-activity-modal";
+import { ImportantLinks } from "./important-links";
 
 export function TripDetailsPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false)
@@ -110,31 +111,7 @@ export function TripDetailsPage() {
 
           <div className='w-full h-px bg-zinc-800' />
 
-          <div className="space-y-6">
-            <h2 className="font-semibold text-xl">Links importantes</h2>
-
-            <div className="space-y-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5 ">
-                  <span className="block font-medium text-zinc-100">Jessica White</span>
-                  <span className="block text-sm text-zinc-400 truncate">jessica.white1@yahoo.com</span>
-                </div>
-                <CircleDashed className="text-zinc-400 size-5 shrink-0"/>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5 ">
-                  <span className="block font-medium text-zinc-100">Mercedes Kulas</span>
-                  <span className="block text-sm text-zinc-400 truncate">merculas@gmail.com</span>
-                </div>
-                <CircleDashed className="text-zinc-400 size-5 shrink-0"/>
-              </div>
-            </div>
-
-            <button className='bg-zinc-800 w-full justify-center text-zinc-200 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-zinc-700'>
-              <UserCog className='size-5' />
-              Gerenciar convidados
-            </button>
-          </div>
+          <ImportantLinks />
         </div>
       </main>
 
