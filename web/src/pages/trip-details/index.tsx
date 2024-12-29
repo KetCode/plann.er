@@ -2,6 +2,7 @@ import { Calendar, CircleCheck, CircleDashed, Link2, MapPin, Plus, Settings2, Ta
 import { useState } from "react";
 import { CreateActivityModal } from "./create-activity-modal";
 import { ImportantLinks } from "./important-links";
+import { Guests } from "./guests";
 
 export function TripDetailsPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false)
@@ -83,34 +84,8 @@ export function TripDetailsPage() {
         </div>
 
         <div className="w-80 space-y-6">
-          <div className="space-y-6">
-            <h2 className="font-semibold text-xl">Convidados</h2>
-
-            <div className="space-y-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5 ">
-                  <span className="block font-medium text-zinc-100">Reserva do Airbnb</span>
-                  <a href="#" className="block text-xs text-zinc-400 truncate hover:text-zinc-200">https://www.airbnb.com.br/rooms/10427401</a>
-                </div>
-                <Link2 className="text-zinc-400 size-5 shrink-0"/>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1.5 ">
-                  <span className="block font-medium text-zinc-100">Reserva do Airbnb</span>
-                  <a href="#" className="block text-xs text-zinc-400 truncate hover:text-zinc-200">https://www.airbnb.com.br/rooms/10427401</a>
-                </div>
-                <Link2 className="text-zinc-400 size-5 shrink-0"/>
-              </div>
-            </div>
-
-            <button className='bg-zinc-800 w-full justify-center text-zinc-200 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-zinc-700'>
-              <Plus className='size-5' />
-              Cadastrar novo link
-            </button>
-          </div>
-
+          <Guests />
           <div className='w-full h-px bg-zinc-800' />
-
           <ImportantLinks />
         </div>
       </main>
