@@ -1,4 +1,4 @@
-import { CircleDashed, UserCog } from "lucide-react";
+import { Link2, Plus } from "lucide-react";
 import { Button } from "../../components/button";
 
 export function ImportantLinks() {
@@ -9,23 +9,23 @@ export function ImportantLinks() {
       <div className="space-y-5">
         <div className="flex items-center justify-between gap-4">
           <div className="space-y-1.5 ">
-            <span className="block font-medium text-zinc-100">Jessica White</span>
-            <span className="block text-sm text-zinc-400 truncate">jessica.white1@yahoo.com</span>
+            <span className="block font-medium text-zinc-100">Reserva do Airbnb</span>
+            <a href="#" className="block text-xs text-zinc-400 truncate hover:text-zinc-200">https://www.airbnb.com.br/rooms/10427401</a>
           </div>
-          <CircleDashed className="text-zinc-400 size-5 shrink-0" />
+          <Link2 className="text-zinc-400 size-5 shrink-0" />
         </div>
         <div className="flex items-center justify-between gap-4">
           <div className="space-y-1.5 ">
-            <span className="block font-medium text-zinc-100">Mercedes Kulas</span>
-            <span className="block text-sm text-zinc-400 truncate">merculas@gmail.com</span>
+            <span className="block font-medium text-zinc-100">Reserva do Airbnb</span>
+            <a href="#" className="block text-xs text-zinc-400 truncate hover:text-zinc-200">https://www.airbnb.com.br/rooms/10427401</a>
           </div>
-          <CircleDashed className="text-zinc-400 size-5 shrink-0" />
+          <Link2 className="text-zinc-400 size-5 shrink-0" />
         </div>
       </div>
 
       <Button variant="secondary" size="full">
-        <UserCog className='size-5' />
-        Gerenciar convidados
+        <Plus className='size-5' />
+        Cadastrar novo link
       </Button>
     </div>
   )
