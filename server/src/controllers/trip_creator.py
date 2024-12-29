@@ -34,7 +34,7 @@ class TripCreator:
             )
 
             return {
-                "body": {"id": trip_id},
+                "body": {"tripId": trip_id},
                 "status_code": 201
             }
         except Exception as exception:

@@ -1,4 +1,5 @@
 from flask import jsonify, Blueprint, request
+from flask_cors import CORS
 
 from src.controllers.trip_creator import TripCreator
 from src.controllers.trip_finder import TripFinder
@@ -20,6 +21,7 @@ from src.models.repositories.activities_repository import ActivitiesRepository
 from src.models.settings.db_connection_handler import db_connection_handler
 
 trips_routes_bp = Blueprint("trip_routes", __name__)
+CORS(trips_routes_bp)
 
 @trips_routes_bp.route("/trips", methods=["POST"])
 def create_trip():
