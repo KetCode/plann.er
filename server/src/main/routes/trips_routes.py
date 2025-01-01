@@ -43,7 +43,7 @@ def find_trip(tripId):
 
     return jsonify(response["body"]), response["status_code"]
 
-@trips_routes_bp.route("/trips/<tripId>/confirm", methods=["GET"])
+@trips_routes_bp.route("/trips/<tripId>/confirm", methods=["PATCH"])
 def confirm_trip(tripId):
     conn = db_connection_handler.get_connection()
     trips_repository = TripsRepository(conn)
