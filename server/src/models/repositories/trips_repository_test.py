@@ -20,7 +20,8 @@ def test_create_trip():
         "starts_at": datetime.strptime("02-01-2023", "%d-%m-%Y"),
         "ends_at": datetime.strptime("02-01-2023", "%d-%m-%Y") + timedelta(days=5),
         "owner_name": "Kesse",
-        "owner_email": "kesse@teste.com",
+        "owner_email": "kesse@email.com",
+        "emails_to_invite": ["kesse@teste.com", "teste@teste.com", "tamara@teste.com"],
     }
 
     trips_repository.create_trip(trips_infos)

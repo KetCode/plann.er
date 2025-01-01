@@ -17,8 +17,10 @@ def test_registry_participants():
     participant_infos = {
         "id": p_id,
         "trip_id": trip_id,
-        "emails_to_invite_id": "teste@teste.com",
         "name": "Teste",
+        "email": "teste@teste.com",
+        "is_confirmed": 0,
+        "is_owner": 0,
     }
 
     participant_repository.registry_participants(participant_infos)

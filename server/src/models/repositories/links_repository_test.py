@@ -16,7 +16,7 @@ def test_registry_link():
     link_infos = {
         "id": str(uuid.uuid4()),
         "trip_id": trip_id,
-        "link": "teste.com",
+        "url": "teste.com",
         "title": "Teste",
     }
 
