@@ -2,29 +2,23 @@ import uuid
 from typing import Dict
 
 class ParticipantCreator:
-    def __init__(self, participants_repository, emails_repository) -> None:
+    def __init__(self, participants_repository) -> None:
         self.__participants_repository = participants_repository
-        self.__emails_repository = emails_repository
 
     def create(self, body, trip_id) -> Dict:
         try:
             participant_id = str(uuid.uuid4())
-            email_id = str(uuid.uuid4())
 
-            emails_infos = {
-                "email": body["email"],
-                "id": email_id,
-                "trip_id": trip_id,
-            }
 
             participant_infos = {
                 "id": participant_id,
                 "trip_id": trip_id,
-                "emails_to_invite_id": email_id,
                 "name": body["name"],
+                "email": body["email"],
+                "is_confirmed": body["is_confirmed"],
+                "is_owner": body["is_owner"],
             }
 
-            self.__emails_repository.registry_email(emails_infos)
             self.__participants_repository.registry_participants(participant_infos)
 
             return {
