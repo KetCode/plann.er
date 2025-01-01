@@ -1,42 +1,34 @@
 CREATE TABLE IF NOT EXISTS 'trips' (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     destination TEXT NOT NULL,
-    starts_at DATETIME,
-    ends_at DATETIME,
-    owner_name TEXT NOT NULL,
-    owner_email TEXT NOT NULL,
-    is_confirmed INTEGER -- 1 para verdadeiro (true), 0 para falso (false)
-);
-
-CREATE TABLE IF NOT EXISTS 'emails_to_invite' (
-    id TEXT PRIMARY KEY,
-    trip_id TEXT,
-    email TEXT NOT NULL,
-    FOREIGN KEY (trip_id) REFERENCES trips(id)
-);
-
-CREATE TABLE IF NOT EXISTS 'links' (
-    id TEXT PRIMARY KEY,
-    trip_id TEXT,
-    link TEXT NOT NULL,
-    title TEXT NOT NULL,
-    FOREIGN KEY (trip_id) REFERENCES trips(id)
+    starts_at DATETIME NOT NULL,
+    ends_at DATETIME NOT NULL,
+    is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS 'participants' (
-    id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT,
+    email TEXT NOT NULL,
+    is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    is_owner BOOLEAN NOT NULL DEFAULT FALSE,
     trip_id TEXT NOT NULL,
-    emails_to_invite_id TEXT NOT NULL,
-    name TEXT NOT NULL,
-    is_confirmed INTEGER, -- 1 para verdadeiro (true), 0 para falso (false)
-    FOREIGN KEY (trip_id) REFERENCES trips(id),
-    FOREIGN KEY (emails_to_invite_id) REFERENCES emails_to_invite(id)
+    FOREIGN KEY (trip_id) REFERENCES trips(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS 'activities' (
-    id TEXT PRIMARY KEY,
-    trip_id TEXT NOT NULL,
+    id TEXT PRIMARY KEY NOT NULL,
     title TEXT NOT NULL,
-    occurs_at DATETIME,
-    FOREIGN KEY (trip_id) REFERENCES trips(id)
+    occurs_at DATETIME NOT NULL,
+    trip_id TEXT NOT NULL,
+    FOREIGN KEY (trip_id) REFERENCES trips(id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS 'links' (
+    id TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    url TEXT NOT NULL,
+    trip_id TEXT NOT NULL,
+    FOREIGN KEY (trip_id) REFERENCES trips(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
