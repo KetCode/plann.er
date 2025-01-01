@@ -10,8 +10,8 @@ class LinkFinder:
             for link in links:
                 formatted_links.append({
                     "id": link[0],
+                    "title": link[1],
                     "url": link[2],
-                    "title": link[3],
                 })
 
             return {
