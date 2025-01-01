@@ -11,9 +11,9 @@ class ActivityCreator:
 
             activities_infos = {
                 "id": id,
-                "trip_id": trip_id,
                 "title": body["title"],
                 "occurs_at": body["occurs_at"],
+                "trip_id": trip_id,
             }
 
             self.__activities_repository.registry_activity(activities_infos)
