@@ -9,9 +9,9 @@ class LinkCreator:
         try:
             link_id = str(uuid.uuid4())
             link_infos = {
-                "link": body["url"],
-                "title": body["title"],
                 "id": link_id,
+                "url": body["url"],
+                "title": body["title"],
                 "trip_id": trip_id
             }
             self.__link_repository.registry_link(link_infos)
