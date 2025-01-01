@@ -10,16 +10,14 @@ class TripsRepository:
         cursor.execute(
             '''
                 INSERT INTO trips
-                    (id, destination, starts_at, ends_at, owner_name, owner_email)
+                    (id, destination, starts_at, ends_at)
                 VALUES
-                    (?, ?, ?, ?, ?, ?)
+                    (?, ?, ?, ?)
             ''', (
                 trips_infos["id"],
                 trips_infos["destination"],
                 trips_infos["starts_at"],
                 trips_infos["ends_at"],
-                trips_infos["owner_name"],
-                trips_infos["owner_email"],
             )
         )
         self.__conn.commit()
