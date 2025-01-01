@@ -13,7 +13,6 @@ from src.controllers.activity_creator import ActivityCreator
 from src.controllers.activity_finder import ActivityFinder
 
 from src.models.repositories.trips_repository import TripsRepository
-from src.models.repositories.emails_to_invite_repository import EmailsToInviteRepository
 from src.models.repositories.links_repository import LinksRepository
 from src.models.repositories.participants_repository import ParticipantsRepository
 from src.models.repositories.activities_repository import ActivitiesRepository
@@ -27,8 +26,8 @@ CORS(trips_routes_bp)
 def create_trip():
     conn = db_connection_handler.get_connection()
     trips_repository = TripsRepository(conn)
-    emails_repository = EmailsToInviteRepository(conn)
-    controller = TripCreator(trips_repository, emails_repository)
+    participants_repository = ParticipantsRepository(conn)
+    controller = TripCreator(trips_repository, participants_repository)
     
     response = controller.create(request.json)
 
@@ -78,8 +77,7 @@ def find_trip_link(tripId):
 def invite_to_trip(tripId):
     conn = db_connection_handler.get_connection()
     participants_repository = ParticipantsRepository(conn)
-    emails_repository = EmailsToInviteRepository(conn)
-    controller = ParticipantCreator(participants_repository, emails_repository)
+    controller = ParticipantCreator(participants_repository)
 
     response = controller.create(request.json, tripId)
 
