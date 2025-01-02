@@ -10,7 +10,7 @@ class LinksRepository:
         cursor.execute(
             '''
                 INSERT INTO links
-                    (id, trip_id, url, title)
+                    (id, url, title, trip_id)
                 VALUES
                     (?, ?, ?, ?)
             ''', (
