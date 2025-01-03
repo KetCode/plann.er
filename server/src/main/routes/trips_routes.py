@@ -107,7 +107,8 @@ def get_trip_participants(tripId):
 def get_trip_activities(tripId):
     conn = db_connection_handler.get_connection()
     activities_repository = ActivitiesRepository(conn)
-    controller = ActivityFinder(activities_repository)
+    trips_repository = TripsRepository(conn)
+    controller = ActivityFinder(activities_repository, trips_repository)
 
     response = controller.find_activities_from_trip(tripId)
 
