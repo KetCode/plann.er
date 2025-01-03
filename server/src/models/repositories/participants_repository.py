@@ -5,7 +5,7 @@ class ParticipantsRepository:
     def __init__(self, conn: Connection) -> None:
         self.__conn = conn
 
-    def registry_participants(self, partcipant_infos: Dict) -> None:
+    def registry_participants(self, participant_infos: Dict) -> None:
         cursor = self.__conn.cursor()
         cursor.execute(
             '''
@@ -14,12 +14,12 @@ class ParticipantsRepository:
                 VALUES
                     (?, ?, ?, ?, ?, ?)
             ''', (
-                partcipant_infos["id"],
-                partcipant_infos["trip_id"],
-                partcipant_infos["name"],
-                partcipant_infos["email"],
-                partcipant_infos["is_confirmed"],
-                partcipant_infos["is_owner"],
+                participant_infos["id"],
+                participant_infos["trip_id"],
+                participant_infos["name"],
+                participant_infos["email"],
+                participant_infos["is_confirmed"],
+                participant_infos["is_owner"],
             )
         )
         self.__conn.commit()
