@@ -4,6 +4,7 @@ from flask_cors import CORS
 from src.controllers.trip_creator import TripCreator
 from src.controllers.trip_finder import TripFinder
 from src.controllers.trip_confirmer import TripConfirmer
+from src.controllers.trip_updater import TripUpdater
 from src.controllers.link_creator import LinkCreator
 from src.controllers.link_finder import LinkFinder
 from src.controllers.participant_creator import ParticipantCreator
@@ -121,5 +122,16 @@ def confirm_participant(participantId):
     controller = ParticipantConfirmer(participants_repository)
 
     response = controller.confirm(participantId)
+
+    return jsonify(response["body"]), response["status_code"]
+
+@trips_routes_bp.route("/trips/<tripId>/update", methods=["PUT"])
+def update_trip(tripId):
+    conn = db_connection_handler.get_connection()
+    trips_repository = TripsRepository(conn)
+    trips_infos = request.get_json()
+    controller = TripUpdater(trips_repository)
+
+    response = controller.update(tripId, trips_infos)
 
     return jsonify(response["body"]), response["status_code"]

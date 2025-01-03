@@ -41,3 +41,22 @@ class TripsRepository:
             ''', (trip_id,)
         )
         self.__conn.commit()
+
+    def update_trip(self, trip_id: str, trips_infos: Dict) -> None:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            ''' 
+                UPDATE trips
+                    SET 
+                        destination = ?,
+                        starts_at = ?,
+                        ends_at = ?
+                WHERE
+                    id = ?
+            ''', (
+                trips_infos["destination"],
+                trips_infos["starts_at"],
+                trips_infos["ends_at"], 
+                trip_id,)
+        )
+        self.__conn.commit()
