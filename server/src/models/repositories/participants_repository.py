@@ -47,3 +47,19 @@ class ParticipantsRepository:
             ''', (participant_id,)
         )
         self.__conn.commit()
+
+    def remove_participant(self, trip_id: str, email: str) -> None:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            '''
+                DELETE FROM participants
+                WHERE
+                    trip_id = ?
+                AND
+                    email = ?
+            ''', (
+                trip_id, 
+                email,
+            )
+        )
+        self.__conn.commit()

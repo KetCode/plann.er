@@ -10,6 +10,7 @@ from src.controllers.link_finder import LinkFinder
 from src.controllers.participant_creator import ParticipantCreator
 from src.controllers.participant_finder import ParticipantFinder
 from src.controllers.participant_confirmer import ParticipantConfirmer
+from src.controllers.participant_remover import ParticipantRemover
 from src.controllers.activity_creator import ActivityCreator
 from src.controllers.activity_finder import ActivityFinder
 
@@ -133,5 +134,15 @@ def update_trip(tripId):
     controller = TripUpdater(trips_repository)
 
     response = controller.update(tripId, trips_infos)
+
+    return jsonify(response["body"]), response["status_code"]
+
+@trips_routes_bp.route("/trips/<tripId>/participants/<email>", methods=["DELETE"])
+def remove_participant(tripId, email):
+    conn = db_connection_handler.get_connection()
+    participants_repository = ParticipantsRepository(conn)
+    controller = ParticipantRemover(participants_repository)
+
+    response = controller.remove(tripId, email)
 
     return jsonify(response["body"]), response["status_code"]
