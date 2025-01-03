@@ -147,6 +147,9 @@ export function CreateTripPage() {
         <ConfirmTripModal 
           closeConfirmTripModal={closeConfirmTripModal}
           createTrip={createTrip}
+          destination={destination}
+          starts_at={eventStartAndEndDates?.from}
+          ends_at={eventStartAndEndDates?.to}
           setOwnerName={setOwnerName}
           setOwnerEmail={setOwnerEmail}
         />
