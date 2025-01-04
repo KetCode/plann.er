@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
 import { UpdateGuestsModal } from "./update-guests-modal";
+import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
 
 interface Participant {
   id: string
@@ -21,10 +22,12 @@ export function Guests() {
   
   function openUpdateGuestsModal(){
     setIsUpdateGuestsModalOpen(true)
+    disableBodyScroll()
   }
 
   function closeUpdateGuestsModal(){
     setIsUpdateGuestsModalOpen(false)
+    enableBodyScroll()
     location.reload();
   }
 

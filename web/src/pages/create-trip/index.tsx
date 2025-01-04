@@ -6,6 +6,7 @@ import { DestinationDateStep } from './steps/destination-date-step'
 import { InviteGuestsStep } from './steps/invite-guests-step'
 import { DateRange } from 'react-day-picker'
 import { api } from '../../lib/axios'
+import { disableBodyScroll, enableBodyScroll } from '@blro/body-scroll-lock'
 
 export function CreateTripPage() {
   const navigate = useNavigate()
@@ -30,18 +31,22 @@ export function CreateTripPage() {
 
   function openGuestsModal() {
     setIsGuestsModalOpen(true)
+    disableBodyScroll()
   }
 
   function closeGuestsModal() {
     setIsGuestsModalOpen(false)
+    enableBodyScroll()
   }
 
   function openConfirmTripModal() {
     setIsConfirmTripModalOpen(true)
+    disableBodyScroll()
   }
 
   function closeConfirmTripModal() {
     setIsConfirmTripModalOpen(false)
+    enableBodyScroll()
   }
 
   function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {

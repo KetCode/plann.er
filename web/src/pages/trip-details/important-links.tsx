@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { CreateLinkModal } from "./create-link-modal";
+import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
 
 interface Links {
   id: string
@@ -18,10 +19,12 @@ export function ImportantLinks() {
 
   function openCreateLinkModal() {
     setIsCreateLinkModalOpen(true)
+    disableBodyScroll()
   }
 
   function closeCreateLinkModal() {
     setIsCreateLinkModalOpen(false)
+    enableBodyScroll()
   }
 
   useEffect(() => {
