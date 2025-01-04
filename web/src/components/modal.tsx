@@ -13,8 +13,8 @@ interface ModalProps {
 
 export function Modal({title, description, buttonText, closeButton, submitButton, children}: ModalProps) {
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
-      <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5'>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center !mt-0">
+      <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5 m-3'>
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-semibold' >{title}</h2>
