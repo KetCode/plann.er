@@ -17,11 +17,12 @@ interface UpdateDestinationDateModalProps {
 export function UpdateDestinationDateModal({ destination, displayedDate, starts_at, ends_at, closeUpdateDestinationDateModal }: UpdateDestinationDateModalProps) {
   const { tripId } = useParams()
   const [isDestination, setIsDestination] = useState(destination)
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>({
     from: new Date(starts_at as string),
     to: new Date(ends_at as string),
   })
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const today = new Date()
 
   function openDatePicker() {
     return setIsDatePickerOpen(true)
@@ -71,7 +72,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
               </div>
             </div>
 
-            <DayPicker className="max-sm:scale-[.88] max-sm:origin-top-left" mode="range" selected={eventStartAndEndDates} onSelect={setEventStartAndEndDates} />
+            <DayPicker className="max-sm:scale-[.88] max-sm:origin-top-left" mode="range" selected={eventStartAndEndDates} onSelect={setEventStartAndEndDates} disabled={{ before: today }} />
           </div>
         </div>
       )}

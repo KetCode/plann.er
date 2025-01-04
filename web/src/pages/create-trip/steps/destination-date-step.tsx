@@ -16,6 +16,7 @@ interface DestinationDateStepProps {
 
 export function DestinationDateStep({ isGuestsInputOpen, closeGuestsInput, openGuestsInput, setDestination, eventStartAndEndDates, setEventStartAndEndDates }: DestinationDateStepProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const today = new Date()
 
   function openDatePicker() {
     return setIsDatePickerOpen(true)
@@ -52,7 +53,7 @@ export function DestinationDateStep({ isGuestsInputOpen, closeGuestsInput, openG
               </div>
             </div>
 
-            <DayPicker className="max-sm:scale-[.88] max-sm:origin-top-left" mode="range" selected={eventStartAndEndDates} onSelect={setEventStartAndEndDates} />
+            <DayPicker className="max-sm:scale-[.88] max-sm:origin-top-left" mode="range" selected={eventStartAndEndDates} onSelect={setEventStartAndEndDates} disabled={{ before: today }} />
           </div>
         </div>
       )}
