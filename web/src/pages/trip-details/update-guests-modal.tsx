@@ -58,7 +58,7 @@ export function UpdateGuestsModal({ emailList, closeUpdateGuestsModal }: UpdateG
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center !mt-0">
-      <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5 m-3 overflow-y-auto h-[31rem]'>
+      <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5 m-3 overflow-y-auto max-h-[31rem]'>
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-semibold' >Atualizar convidados</h2>
