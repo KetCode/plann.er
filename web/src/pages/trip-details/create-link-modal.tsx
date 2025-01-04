@@ -3,6 +3,7 @@ import { Modal } from "../../components/modal";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
 import { FormEvent } from "react";
+import { enableBodyScroll } from "@blro/body-scroll-lock";
 
 interface CreateLinkModalProps {
   closeCreateLinkModal: () => void
@@ -21,6 +22,7 @@ export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) 
 
     await api.post(`/trips/${tripId}/link`, { title, url })
 
+    enableBodyScroll()
     location.reload();
   }
 

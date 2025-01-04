@@ -103,6 +103,7 @@ export function CreateTripPage() {
     })
 
     const { tripId } = response.data
+    enableBodyScroll()
     navigate(`/trips/${tripId}`)
   }
 

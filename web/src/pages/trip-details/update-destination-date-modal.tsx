@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { api } from "../../lib/axios";
 import { DateRange, DayPicker } from "react-day-picker";
 import { format } from "date-fns";
+import { enableBodyScroll } from "@blro/body-scroll-lock";
 
 interface UpdateDestinationDateModalProps {
   destination: string | undefined
@@ -44,7 +45,8 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
       const ends_at = eventStartAndEndDates?.to
   
       await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
-  
+      
+      enableBodyScroll()
       location.reload();
     }
 
