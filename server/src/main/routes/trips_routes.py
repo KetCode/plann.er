@@ -9,6 +9,7 @@ from src.controllers.link_creator import LinkCreator
 from src.controllers.link_finder import LinkFinder
 from src.controllers.participant_creator import ParticipantCreator
 from src.controllers.participant_finder import ParticipantFinder
+from src.controllers.participants_finder import ParticipantsFinder
 from src.controllers.participant_confirmer import ParticipantConfirmer
 from src.controllers.participant_remover import ParticipantRemover
 from src.controllers.activity_creator import ActivityCreator
@@ -99,7 +100,7 @@ def create_activity(tripId):
 def get_trip_participants(tripId):
     conn = db_connection_handler.get_connection()
     participants_repository = ParticipantsRepository(conn)
-    controller = ParticipantFinder(participants_repository)
+    controller = ParticipantsFinder(participants_repository)
 
     response = controller.find_participants_from_trip(tripId)
 
@@ -144,5 +145,15 @@ def remove_participant(tripId, email):
     controller = ParticipantRemover(participants_repository)
 
     response = controller.remove(tripId, email)
+
+    return jsonify(response["body"]), response["status_code"]
+
+@trips_routes_bp.route("/participants/<participantId>", methods=["GET"])
+def find_participant(participantId):
+    conn = db_connection_handler.get_connection()
+    participants_repository = ParticipantsRepository(conn)
+    controller = ParticipantFinder(participants_repository)
+
+    response = controller.find(participantId)
 
     return jsonify(response["body"]), response["status_code"]

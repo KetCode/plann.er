@@ -63,3 +63,11 @@ class ParticipantsRepository:
             )
         )
         self.__conn.commit()
+
+    def find_participant(self, participant_id: str) -> None:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            '''SELECT * FROM participants WHERE id = ?''', (participant_id,)
+        )
+        participant = cursor.fetchone()
+        return participant

@@ -4,22 +4,23 @@ class ParticipantFinder:
     def __init__(self, participants_repository) -> None:
         self.__participants_repository = participants_repository
     
-    def find_participants_from_trip(self, trip_id: str) -> Dict:
+    def find(self, participant_id: str) -> Dict:
         try:
-            participants = self.__participants_repository.find_participants_from_trip(trip_id)
+            participant = self.__participants_repository.find_participant(participant_id)
 
-            participants_infos = []
-
-            for participant in participants:
-                participants_infos.append({
-                    "id": participant[0],
-                    "name": participant[1],
-                    "is_confirmed": participant[2],
-                    "email": participant[3],
-                })
+            if not participant: raise Exception("No Participant Found")
 
             return {
-                "body": { "participants": participants_infos },
+                "body": {
+                    "participant": {
+                        "id": participant[0],
+                        "name": participant[1],
+                        "email": participant[2],
+                        "is_confirmed": participant[3],
+                        "is_owner": participant[4],
+                        "trip_id": participant[5]
+                    }
+                },
                 "status_code": 200
             }
         except Exception as exception:
