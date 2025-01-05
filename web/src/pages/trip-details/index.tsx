@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateActivityModal } from "./create-activity-modal";
 import { ImportantLinks } from "./important-links";
 import { Guests } from "./guests";
@@ -7,9 +7,11 @@ import { Activities } from "./activities";
 import { DestinationDateHeader } from "./destination-date-header";
 import { Button } from "../../components/button";
 import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
+import { AccceptInvitationModal } from "./accept-invitation-modal";
 
 export function TripDetailsPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false)
+  const [isAcceptInvitationModalOpen, setIsAcceptInvitationModalOpen] = useState(false)
 
   function openCreateActivityModal() {
     setIsCreateActivityModalOpen(true)
@@ -20,6 +22,22 @@ export function TripDetailsPage() {
     setIsCreateActivityModalOpen(false)
     enableBodyScroll()
   }
+
+  function openAcceptInvitationModal() {
+    setIsAcceptInvitationModalOpen(true)
+    disableBodyScroll()
+  }
+
+  function closeAcceptInvitationModal() {
+    setIsAcceptInvitationModalOpen(false)
+    enableBodyScroll()
+  }
+
+  useEffect(() => {
+    if (location.pathname.match(/^\/participants\/[^/]+\/confirm$/)) {
+      openAcceptInvitationModal()
+    }
+  })
 
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
@@ -49,6 +67,10 @@ export function TripDetailsPage() {
 
       {isCreateActivityModalOpen && (
         <CreateActivityModal closeCreateActivityModal={closeCreateActivityModal} />
+      )}
+
+      {isAcceptInvitationModalOpen && (
+        <AccceptInvitationModal closeAcceptInvitationModal={closeAcceptInvitationModal} />
       )}
 
     </div>
