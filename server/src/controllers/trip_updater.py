@@ -4,9 +4,9 @@ class TripUpdater:
     def __init__(self, trips_repository) -> None:
         self.__trips_repository = trips_repository
 
-    def update(self, trip_id, trips_infos) -> Dict:
+    def update(self, trip_id, trip_infos) -> Dict:
         try:
-            self.__trips_repository.update_trip(trip_id, trips_infos)
+            self.__trips_repository.update_trip(trip_id, trip_infos)
             return { "body": None, "status_code": 204}
         except Exception as exception:
             return {

@@ -5,7 +5,7 @@ class TripsRepository:
     def __init__(self, conn: Connection) -> None:
         self.__conn = conn
 
-    def create_trip(self, trips_infos: Dict) -> None:
+    def create_trip(self, trip_infos: Dict) -> None:
         cursor = self.__conn.cursor()
         cursor.execute(
             '''
@@ -14,10 +14,10 @@ class TripsRepository:
                 VALUES
                     (?, ?, ?, ?)
             ''', (
-                trips_infos["id"],
-                trips_infos["destination"],
-                trips_infos["starts_at"],
-                trips_infos["ends_at"],
+                trip_infos["id"],
+                trip_infos["destination"],
+                trip_infos["starts_at"],
+                trip_infos["ends_at"],
             )
         )
         self.__conn.commit()
@@ -42,7 +42,7 @@ class TripsRepository:
         )
         self.__conn.commit()
 
-    def update_trip(self, trip_id: str, trips_infos: Dict) -> None:
+    def update_trip(self, trip_id: str, trip_infos: Dict) -> None:
         cursor = self.__conn.cursor()
         cursor.execute(
             ''' 
@@ -54,9 +54,9 @@ class TripsRepository:
                 WHERE
                     id = ?
             ''', (
-                trips_infos["destination"],
-                trips_infos["starts_at"],
-                trips_infos["ends_at"], 
+                trip_infos["destination"],
+                trip_infos["starts_at"],
+                trip_infos["ends_at"], 
                 trip_id,)
         )
         self.__conn.commit()

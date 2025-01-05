@@ -4,9 +4,9 @@ class ParticipantConfirmer:
     def __init__(self, participants_repository) -> None:
         self.__participants_repository = participants_repository
 
-    def confirm(self, participant_id, trips_infos) -> Dict:
+    def confirm(self, participant_id, trip_infos) -> Dict:
         try:
-            self.__participants_repository.update_participant(participant_id, trips_infos)
+            self.__participants_repository.update_participant(participant_id, trip_infos)
             return { "body": None, "status_code": 204}
         except Exception as exception:
             return {
