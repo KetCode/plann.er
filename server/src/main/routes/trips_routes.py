@@ -117,13 +117,13 @@ def get_trip_activities(tripId):
 
     return jsonify(response["body"]), response["status_code"]
 
-@trips_routes_bp.route("/participants/<participantId>/confirm", methods=["PATCH"])
+@trips_routes_bp.route("/participants/<participantId>/confirm", methods=["PUT"])
 def confirm_participant(participantId):
     conn = db_connection_handler.get_connection()
     participants_repository = ParticipantsRepository(conn)
     controller = ParticipantConfirmer(participants_repository)
 
-    response = controller.confirm(participantId)
+    response = controller.confirm(participantId, request.json,)
 
     return jsonify(response["body"]), response["status_code"]
 
@@ -131,10 +131,9 @@ def confirm_participant(participantId):
 def update_trip(tripId):
     conn = db_connection_handler.get_connection()
     trips_repository = TripsRepository(conn)
-    trips_infos = request.get_json()
     controller = TripUpdater(trips_repository)
 
-    response = controller.update(tripId, trips_infos)
+    response = controller.update(tripId, request.json)
 
     return jsonify(response["body"]), response["status_code"]
 
