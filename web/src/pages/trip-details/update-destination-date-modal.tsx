@@ -34,21 +34,21 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
   }
 
   const displayedDateUpdate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL")) : displayedDate
-  
+
   async function updateDestinationDate(event: FormEvent<HTMLFormElement>) {
-      event.preventDefault()
-      
-      const data = new FormData(event.currentTarget)
-  
-      const destination = data.get('destination')?.toString()
-      const starts_at = eventStartAndEndDates?.from
-      const ends_at = eventStartAndEndDates?.to
-  
-      await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
-      
-      enableBodyScroll()
-      location.reload();
-    }
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+
+    const destination = data.get('destination')?.toString()
+    const starts_at = eventStartAndEndDates?.from
+    const ends_at = eventStartAndEndDates?.to
+
+    await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
+
+    enableBodyScroll()
+    location.reload();
+  }
 
   return (
     <Modal title="Alterar local e data" description="Todos convidados podem visualizar as alterações." buttonText="Salvar local e data" closeButton={closeUpdateDestinationDateModal} submitButton={updateDestinationDate}>
