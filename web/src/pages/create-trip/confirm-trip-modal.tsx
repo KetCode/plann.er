@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import { FormEvent } from "react";
 import { Modal } from "../../components/modal";
 import { format } from "date-fns";
@@ -36,7 +36,7 @@ export function ConfirmTripModal({ closeConfirmTripModal, createTrip, destinatio
       </div>
 
       <div className='px-4 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-        <User className='text-zinc-400 size-5' />
+        <Mail className='text-zinc-400 size-5' />
         <input type="email" onChange={event => setOwnerEmail(event.target.value)} name='email' placeholder="Seu email pessoal" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
       </div>
     </Modal>
