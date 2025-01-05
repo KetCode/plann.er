@@ -23,7 +23,7 @@ export function CreateActivityModal({ closeCreateActivityModal }: CreateActivity
     await api.post(`/trips/${tripId}/activities`, { title, occurs_at })
 
     enableBodyScroll()
-    location.reload();
+    location.reload()
   }
 
   return (

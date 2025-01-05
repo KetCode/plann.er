@@ -23,7 +23,7 @@ export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) 
     await api.post(`/trips/${tripId}/link`, { title, url })
 
     enableBodyScroll()
-    location.reload();
+    location.reload()
   }
 
   return (

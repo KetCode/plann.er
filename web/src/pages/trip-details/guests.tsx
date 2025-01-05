@@ -28,7 +28,7 @@ export function Guests() {
   function closeUpdateGuestsModal(){
     setIsUpdateGuestsModalOpen(false)
     enableBodyScroll()
-    location.reload();
+    location.reload()
   }
 
   useEffect(() => {

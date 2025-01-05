@@ -47,7 +47,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
     await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
 
     enableBodyScroll()
-    location.reload();
+    location.reload()
   }
 
   return (
