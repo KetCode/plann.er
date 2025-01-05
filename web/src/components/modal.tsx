@@ -22,7 +22,7 @@ export function Modal({title, description, buttonText, closeButton, submitButton
               <X className='size-5 text-zinc-400' />
             </button>
           </div>
-          <p className='text-sm text-zinc-400'>{description}</p>
+          <p className='text-sm text-zinc-400 sm:w-[35rem]'>{description}</p>
         </div>
 
         <form onSubmit={submitButton} className='space-y-3'>
