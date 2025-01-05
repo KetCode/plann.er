@@ -1,4 +1,4 @@
-import { CircleCheck } from "lucide-react";
+import { Activity, CircleCheck, CircleDashed } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
@@ -17,6 +17,7 @@ interface Activity {
 export function Activities() {
   const { tripId } = useParams()
   const [activities, setActivities] = useState<Activity[]>([])
+  const today = format(new Date(), "yyyy-MM-dd'T'HH:mm")
 
   useEffect(() => {
     api.get(`/trips/${tripId}/activities`).then(response => setActivities(response.data.activities))
@@ -34,15 +35,13 @@ export function Activities() {
             </div>
 
             {category.activities.length > 0 ? (
-              <div>
+              <div className="space-y-2.5">
                 {category.activities.map(activity => {
                   return (
-                    <div key={activity.id} className="space-y-2.5 ">
-                      <div className="px-4 py-2.5 bg-zinc-900 rounded-xl shadow-shape flex items-center gap-3">
-                        <CircleCheck className="size-5 text-lime-300" />
-                        <span className="text-zinc-100">{activity.title}</span>
-                        <span className="text-zinc-400 text-sm ml-auto">{format(activity.occurs_at, 'HH:mm')}h</span>
-                      </div>
+                    <div key={activity.id} className="px-4 py-2.5 bg-zinc-900 rounded-xl shadow-shape flex items-center gap-3">
+                      {activity.occurs_at < String(today) ? (<CircleCheck className="size-5 text-lime-300" />) : (<CircleDashed className="size-5 text-zinc-400" />)}
+                      <span className="text-zinc-100">{activity.title}</span>
+                      <span className="text-zinc-400 text-sm ml-auto">{format(activity.occurs_at, 'HH:mm')}h</span>
                     </div>
                   )
                 })}
@@ -53,7 +52,7 @@ export function Activities() {
           </div>
         )
       })}
-      
+
     </div>
   )
 }
