@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Modal } from "../../components/modal";
 import { Mail, User } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
-import { enableBodyScroll } from "@blro/body-scroll-lock";
 import { api } from "../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -58,7 +57,6 @@ export function AccceptInvitationModal({ closeAcceptInvitationModal }: AccceptIn
 
     await api.put(`/participants/${participantId}/confirm`, { name, email, is_confirmed, is_owner })
     
-    enableBodyScroll()
     closeAcceptInvitationModal()
     navigate(`/trips/${tripId}`)
   }
