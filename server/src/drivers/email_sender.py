@@ -2,7 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(to_addrs, body):
+def send_email(to_addrs, title, body):
     from_addr = "GENERATEYOUREMAIL@ethereal.email"
     login = "GENERATEYOUREMAIL@ethereal.email"
     password = "GENERATEYOURPASSWORD"
@@ -11,7 +11,7 @@ def send_email(to_addrs, body):
     msg["from"] = "viagens_confirmar@email.com"
     msg["to"] = ', '.join(to_addrs)
 
-    msg["Subject"] = "Confirmação de Viagem!"
+    msg["Subject"] = title
     msg.attach(MIMEText(body, 'html'))
 
     try:
