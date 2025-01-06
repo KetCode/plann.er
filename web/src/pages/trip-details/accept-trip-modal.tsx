@@ -13,11 +13,11 @@ interface Trip {
   is_confirmed: boolean
 }
 
-interface AcceptInvitationTripModalProps {
-  closeAcceptInvitationTripModal: () => void
+interface AcceptTripModalProps {
+  closeAcceptTripModal: () => void
 }
 
-export function AcceptInvitationTripModal({ closeAcceptInvitationTripModal }: AcceptInvitationTripModalProps) {
+export function AcceptTripModal({ closeAcceptTripModal }: AcceptTripModalProps) {
   const navigate = useNavigate()
   const { tripId } = useParams()
   const [trip, setTrip] = useState<Trip | undefined>()
@@ -29,7 +29,7 @@ export function AcceptInvitationTripModal({ closeAcceptInvitationTripModal }: Ac
   const displayedDate = trip ? format(trip.starts_at, "d").concat(' a ').concat(format(trip.ends_at, "d' de 'LLLL' de 'yyyy", { locale: ptBR })) : null
 
   function handleClose() {
-    closeAcceptInvitationTripModal()
+    closeAcceptTripModal()
     navigate(`/trips/${tripId}`)
   }
   

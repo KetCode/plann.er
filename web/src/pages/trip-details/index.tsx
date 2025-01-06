@@ -8,10 +8,12 @@ import { DestinationDateHeader } from "./destination-date-header";
 import { Button } from "../../components/button";
 import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
 import { AccceptInvitationModal } from "./accept-invitation-modal";
+import { AcceptTripModal } from "./accept-trip-modal";
 
 export function TripDetailsPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false)
   const [isAcceptInvitationModalOpen, setIsAcceptInvitationModalOpen] = useState(false)
+  const [isAcceptTripModalOpen, setIsAcceptTripModalOpen] = useState(false)
 
   function openCreateActivityModal() {
     setIsCreateActivityModalOpen(true)
@@ -33,9 +35,25 @@ export function TripDetailsPage() {
     enableBodyScroll()
   }
 
+  function openAcceptTripModal() {
+    setIsAcceptTripModalOpen(true)
+    disableBodyScroll()
+  }
+
+  function closeAcceptTripModal() {
+    setIsAcceptTripModalOpen(false)
+    enableBodyScroll()
+  }
+
   useEffect(() => {
     if (location.pathname.match(/^\/participants\/[^/]+\/confirm$/)) {
       openAcceptInvitationModal()
+    }
+  })
+
+  useEffect(() => {
+    if (location.pathname.match(/^\/trips\/[^/]+\/confirm$/)) {
+      openAcceptTripModal()
     }
   })
 
@@ -71,6 +89,10 @@ export function TripDetailsPage() {
 
       {isAcceptInvitationModalOpen && (
         <AccceptInvitationModal closeAcceptInvitationModal={closeAcceptInvitationModal} />
+      )}
+
+      {isAcceptTripModalOpen && (
+        <AcceptTripModal closeAcceptTripModal={closeAcceptTripModal} />
       )}
 
     </div>
