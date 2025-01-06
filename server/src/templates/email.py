@@ -1,4 +1,4 @@
-def email_template(trip_id, destination, displayedDate, PORT):
+def email_confirm_trip(trip_id, destination, displayedDate, PORT):
     logo_url = "https://raw.githubusercontent.com/KetCode/plann.er/253e045e8eb3513a86571758eb4df2432c4cb5b1/server/src/static/logo.svg"
     icon_url = "https://raw.githubusercontent.com/KetCode/plann.er/253e045e8eb3513a86571758eb4df2432c4cb5b1/server/src/static/icon.svg"
 

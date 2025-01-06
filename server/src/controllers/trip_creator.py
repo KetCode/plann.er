@@ -4,7 +4,7 @@ from datetime import datetime
 import locale
 
 from src.drivers.email_sender import send_email
-from src.templates.email import email_template
+from src.templates.email import email_confirm_trip
 
 from src.main.server.config import WEB_PORT
 
@@ -57,7 +57,7 @@ class TripCreator:
 
             send_email(
                 [body["owner_email"]],
-                email_template(trip_id, destination, displayedDate, WEB_PORT)
+                email_confirm_trip(trip_id, destination, displayedDate, WEB_PORT)
             )
 
             return {
