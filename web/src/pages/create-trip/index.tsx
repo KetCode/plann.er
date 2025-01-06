@@ -85,9 +85,9 @@ export function CreateTripPage() {
       return
     }
 
-    if (emailsToInvite.length === 0) {
+    /* if (emailsToInvite.length === 0) {
       return
-    }
+    } */
 
     if (!ownerName || !ownerEmail) {
       return
@@ -116,7 +116,7 @@ export function CreateTripPage() {
         </div>
 
         <div className="space-y-4">
-          <DestinationDateStep 
+          <DestinationDateStep
             closeGuestsInput={closeGuestsInput}
             isGuestsInputOpen={isGuestsInputOpen}
             openGuestsInput={openGuestsInput}
@@ -126,7 +126,7 @@ export function CreateTripPage() {
           />
 
           {isGuestsInputOpen && (
-            <InviteGuestsStep 
+            <InviteGuestsStep
               emailsToInvite={emailsToInvite}
               openConfirmTripModal={openConfirmTripModal}
               openGuestsModal={openGuestsModal}
@@ -141,7 +141,7 @@ export function CreateTripPage() {
       </div>
 
       {isGuestsModalOpen && (
-        <InviteGuestsModal 
+        <InviteGuestsModal
           emailsToInvite={emailsToInvite}
           addNewEmailToInvite={addNewEmailToInvite}
           closeGuestsModal={closeGuestsModal}
@@ -150,7 +150,7 @@ export function CreateTripPage() {
       )}
 
       {isConfirmTripModalOpen && (
-        <ConfirmTripModal 
+        <ConfirmTripModal
           closeConfirmTripModal={closeConfirmTripModal}
           createTrip={createTrip}
           destination={destination}
