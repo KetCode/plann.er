@@ -8,7 +8,7 @@ interface ModalProps {
   buttonText: string
   closeButton: () => void
   submitButton: (event: FormEvent<HTMLFormElement>) => void
-  children: ReactNode
+  children?: ReactNode
 }
 
 export function Modal({title, description, buttonText, closeButton, submitButton, children}: ModalProps) {
