@@ -1,4 +1,4 @@
-def email_template(trip_id, PORT):
+def email_template(trip_id, destination, displayedDate, PORT):
     logo_url = "https://raw.githubusercontent.com/KetCode/plann.er/253e045e8eb3513a86571758eb4df2432c4cb5b1/server/src/static/logo.svg"
     icon_url = "https://raw.githubusercontent.com/KetCode/plann.er/253e045e8eb3513a86571758eb4df2432c4cb5b1/server/src/static/icon.svg"
 
@@ -42,6 +42,9 @@ def email_template(trip_id, PORT):
                     color: #666666;
                     margin-bottom: 20px;
                 }}
+                .bold {{
+                  font-weight: 600;  
+                }}
                 .content img {{
                     max-width: 320px;
                     margin-bottom: 20px;
@@ -76,8 +79,10 @@ def email_template(trip_id, PORT):
                 <div class="content">
                     <img src="{icon_url}" alt="Icon">
                     <h1>You’re one click away!</h1>
-                    <p>We’re all set to get you to have a great experience in your trip. Just confirm your email address below:</p>
-                    <a href="http://localhost:{PORT}/trips/{trip_id}/confirm" class="button">Confirm Email</a>
+                    <p>We’re all set to ensure you have a great experience on your trip to <span class="bold">{destination}</span> on <span class="bold">{displayedDate}</span>. Please confirm your trip below:</p>
+                    <a href="http://localhost:{PORT}/trips/{trip_id}/confirm" class="button">Confirm trip</a>
+                    <br/><br/>
+                    <p>If you are unsure what this email is about, please just <u>ignore this email</u>.</p>
                 </div>
                 <div class="footer">
                     <p>Copyright ©2024 Plann.er</p>

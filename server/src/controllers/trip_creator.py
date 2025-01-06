@@ -1,10 +1,12 @@
 import uuid
 from typing import Dict
+from datetime import datetime
+import locale
 
 from src.drivers.email_sender import send_email
 from src.templates.email import email_template
 
-from src.main.server.config import PORT
+from src.main.server.config import WEB_PORT
 
 class TripCreator:
     def __init__(self, trip_repository, participants_repository) -> None:
@@ -43,9 +45,19 @@ class TripCreator:
                         "id": str(uuid.uuid4())
                     })
 
+            destination = body.get("destination")
+            starts_at = body.get("starts_at")
+            ends_at = body.get("ends_at")
+
+            locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+            start_date = datetime.fromisoformat(starts_at.replace("Z", "+00:00"))
+            end_date = datetime.fromisoformat(ends_at.replace("Z", "+00:00"))
+
+            displayedDate = f"{start_date.strftime('%d')} a {end_date.strftime('%d')} de {end_date.strftime('%B')} de {end_date.strftime('%Y')}"
+
             send_email(
                 [body["owner_email"]],
-                email_template(trip_id, PORT)
+                email_template(trip_id, destination, displayedDate, WEB_PORT)
             )
 
             return {
