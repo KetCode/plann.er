@@ -65,10 +65,10 @@ export function Activities({ tripDetails }: Props) {
             tripId: tripDetails.id,
             occurs_at: dayjs(activityDate)
               .add(Number(activityHour), "h")
-              .toString(),
+              .toISOString(),
             title: activityTitle,
           })
-    
+
           Alert.alert("Nova Atividade", "Nova atividade cadastrada com sucesso!")
     
           await getTripActivities()
