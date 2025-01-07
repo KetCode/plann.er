@@ -182,10 +182,10 @@ export function Activities({ tripDetails }: Props) {
                 />
                 </Input>
 
-                <Input variant="secondary" className="flex-1">
+                <Input variant="secondary" className="w-36">
                 <Clock color={colors.zinc[400]} size={20} />
                 <Input.Field
-                    placeholder="Horário?"
+                    placeholder="Horário"
                     onChangeText={(text) =>
                     setActivityHour(text.replace(".", "").replace(",", ""))
                     }
