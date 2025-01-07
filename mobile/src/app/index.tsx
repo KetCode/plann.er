@@ -118,15 +118,15 @@ export default function Index(){
     
           const newTrip = await tripServer.create({
             destination,
-            starts_at: dayjs(selectedDates.startsAt?.dateString).toString(),
-            ends_at: dayjs(selectedDates.endsAt?.dateString).toString(),
+            starts_at: dayjs(selectedDates.startsAt?.dateString).toISOString(),
+            ends_at: dayjs(selectedDates.endsAt?.dateString).toISOString(),
             emails_to_invite: emailsToInvite,
           })
     
           Alert.alert("Nova viagem", "Viagem criada com sucesso!", [
             {
               text: "OK. Continuar.",
-              onPress: () => saveTrip(newTrip.id),
+              onPress: () => saveTrip(newTrip.tripId),
             },
           ])
         } catch (error) {
@@ -168,12 +168,12 @@ export default function Index(){
 
             <Image source={require("@/assets/bg.png")} className="absolute"/>
             <Text className="text-zinc-400 font-regular text-center text-lg mt-3">
-                Convide seus amigos e planeje sua{"\n"}próxima viagem
+                Convide seus amigos e planeje sua{"\n"}próxima viagem!
             </Text>
-            <View className="w-full bg-zinc-900 p-4 rounded-xl my-8 border border-zinc-800">
+            <View className="w-full bg-zinc-900 px-4 py-3 rounded-xl my-8 border border-zinc-800 gap-1.5">
                 <Input>
                     <MapPin color={colors.zinc[400]} size={20}/>
-                    <Input.Field placeholder="Para onde?" editable={stepForm === StepForm.TRIP_DETAILS} onChangeText={setDestination} value={destination} />
+                    <Input.Field placeholder="Para onde você vai?" editable={stepForm === StepForm.TRIP_DETAILS} onChangeText={setDestination} value={destination} />
                 </Input>
 
                 <Input>
@@ -182,8 +182,8 @@ export default function Index(){
                 </Input>
 
                 { stepForm === StepForm.ADD_EMAIL && (
-                    <View>
-                        <View className="border-b py-3 border-zinc-800">
+                    <View className="gap-1.5">
+                        <View className="border-b pb-3 border-zinc-800">
                             <Button variant="secondary" onPress={() => setStepForm(StepForm.TRIP_DETAILS)}>
                                 <Button.Title>Alterar local/data</Button.Title>
                                 <Settings2 color={colors.zinc[200]} size={20}/>
@@ -206,8 +206,7 @@ export default function Index(){
                 </Button>
             </View>
 
-            <Text className="text-zinc-500 font-regular text-center text-base">Ao planejar sua viagem pela plann.er você automaticamente concorda com nossos{" "}<Text className="text-zinc-300 underline"> termos de uso e políticas de privacidade.</Text>
-            </Text>
+            <Text className="text-zinc-500 font-regular text-center text-base">Ao planejar sua viagem pela plann.er você automaticamente concorda com nossos{" "}<Text className="text-zinc-300 underline">termos de uso</Text> e <Text className="text-zinc-300 underline">políticas de privacidade</Text>.</Text>
 
             <Modal title="Selecionar datas" subtitle="Selecione a data de ida e volta da viagem" visible={showModal === MODAL.CALENDAR} onClose={() => setShowModal(MODAL.NONE)}>
                 <View className="gap-4 mt-4">
@@ -219,7 +218,7 @@ export default function Index(){
                 </View>
             </Modal>
 
-            <Modal title="Selecionar convidados" subtitle="Os convidados irão reecber e-mails para confirmar participação na viagem" visible={showModal === MODAL.GUESTS} onClose={() => setShowModal(MODAL.NONE)}>
+            <Modal title="Selecionar convidados" subtitle="Os convidados irão receber e-mails para confirmar a participação na viagem." visible={showModal === MODAL.GUESTS} onClose={() => setShowModal(MODAL.NONE)}>
                 <View className="my-2 flex-wrap gap-2 border-b border-zinc-800 py-5 items-start">
                     {emailsToInvite.length > 0 ? (emailsToInvite.map((email) => (
                         <GuestEmail key={email} email={email} onRemove={() => handleRemoveEmail(email)} />
