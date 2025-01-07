@@ -28,7 +28,7 @@ async function create({
     emails_to_invite,
   }: TripCreate) {
     try {
-      const { data } = await api.post<{ id: string }>("/trips", {
+      const { data } = await api.post<{ tripId: string }>("/trips", {
         destination,
         starts_at,
         ends_at,
@@ -50,7 +50,7 @@ async function update({
   ends_at,
 }: Omit<TripDetails, "is_confirmed">) {
   try {
-    await api.put(`/trips/${id}`, {
+    await api.put(`/trips/${id}/update`, {
       destination,
       starts_at,
       ends_at,
