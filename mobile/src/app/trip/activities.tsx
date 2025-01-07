@@ -209,7 +209,7 @@ export function Activities({ tripDetails }: Props) {
             title="Selecionar data"
             subtitle="Selecione a data da atividade"
             visible={showModal === MODAL.CALENDAR}
-            onClose={() => setShowModal(MODAL.NONE)}
+            onClose={() => setShowModal(MODAL.NEW_ACTIVITY)}
         >
             <View className="gap-4 mt-4">
             <Calendar

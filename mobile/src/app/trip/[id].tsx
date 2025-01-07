@@ -294,7 +294,7 @@ export default function Trip() {
         title="Selecionar datas"
         subtitle="Selecione a data de ida e volta da viagem"
         visible={showModal === MODAL.CALENDAR}
-        onClose={() => setShowModal(MODAL.NONE)}
+        onClose={() => setShowModal(MODAL.UPDATE_TRIP)}
       >
         <View className="gap-4 mt-4">
           <Calendar
