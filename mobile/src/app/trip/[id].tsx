@@ -196,7 +196,7 @@ export default function Trip() {
   if (isLoadingTrip) {
     return <Loading />
   }
-  
+
   return (
     <View className="flex-1 px-5 pt-16">
       <Input variant="tertiary">
