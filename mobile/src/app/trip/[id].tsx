@@ -18,7 +18,7 @@ import { validateInput } from "@/utils/validateInput"
 import { participantsServer } from "@/server/participants-server"
 import { tripStorage } from "@/storage/trip"
 
-export type TripData = TripDetails & { when: string }
+export type TripData = TripDetails & { when: string, date: string }
 
 enum MODAL {
   NONE = 0,
@@ -69,15 +69,12 @@ export default function Trip() {
           ? trip.destination.slice(0, maxLengthDestination) + "..."
           : trip.destination
 
-      const starts_at = dayjs(trip.starts_at).format("DD")
-      const ends_at = dayjs(trip.ends_at).format("DD")
-      const month = dayjs(trip.starts_at).format("MMM")
-
       setDestination(trip.destination)
 
       setTripDetails({
         ...trip,
-        when: `${destination} de ${starts_at} a ${ends_at} de ${month}.`,
+        when: `${destination}`,
+        date: `${dayjs(trip.starts_at).format("DD")} de ${dayjs(trip.starts_at).format("MMM")} a ${dayjs(trip.ends_at).format("DD")} de ${dayjs(trip.starts_at).format("MMM")}`,
       })
     } catch (error) {
       console.log(error)
@@ -114,8 +111,8 @@ export default function Trip() {
       await tripServer.update({
         id: tripParams.id,
         destination,
-        starts_at: dayjs(selectedDates.startsAt.dateString).toString(),
-        ends_at: dayjs(selectedDates.endsAt.dateString).toString(),
+        starts_at: dayjs(selectedDates.startsAt.dateString).toISOString(),
+        ends_at: dayjs(selectedDates.endsAt.dateString).toISOString(),
       })
 
       Alert.alert("Atualizar viagem", "Viagem atualizada com sucesso!", [
@@ -203,8 +200,12 @@ export default function Trip() {
   return (
     <View className="flex-1 px-5 pt-16">
       <Input variant="tertiary">
-        <MapPin color={colors.zinc[400]} size={20} />
-        <Input.Field value={tripDetails.when} readOnly />
+        <View className="flex-1 flex-row items-center gap-2">
+          <MapPin color={colors.zinc[400]} size={20} />
+          <Input.Field value={tripDetails.when} readOnly />
+        </View>
+
+        <Text className="flex-1 text-zinc-100">{tripDetails.date}</Text>
 
         <TouchableOpacity
           activeOpacity={0.6}
@@ -261,7 +262,7 @@ export default function Trip() {
           <Input variant="secondary">
             <MapPin color={colors.zinc[400]} size={20} />
             <Input.Field
-              placeholder="Para onde?"
+              placeholder="Para onde você vai?"
               onChangeText={setDestination}
               value={destination}
             />
@@ -272,6 +273,7 @@ export default function Trip() {
 
             <Input.Field
               placeholder="Quando?"
+              defaultValue={tripDetails.date}
               value={selectedDates.formatDatesInText}
               onPressIn={() => setShowModal(MODAL.CALENDAR)}
               onFocus={() => Keyboard.dismiss()}
