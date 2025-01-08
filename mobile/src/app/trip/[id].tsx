@@ -199,20 +199,23 @@ export default function Trip() {
 
   return (
     <View className="flex-1 px-5 pt-16">
-      <Input variant="tertiary">
-        <View className="flex-1 flex-row items-center gap-2">
-          <MapPin color={colors.zinc[400]} size={20} />
-          <Input.Field value={tripDetails.when} readOnly />
-        </View>
+      <Input variant="tertiary" className="h-16 gap-5">
+        <View className="flex-1 flex-row items-center justify-between gap-5">
+          <View className="flex-1 flex-row items-center gap-2">
+            <MapPin color={colors.zinc[400]} size={20} />
+            <Input.Field value={tripDetails.when} readOnly />
+          </View>
 
-        <Text className="flex-1 text-zinc-100">{tripDetails.date}</Text>
+          <Text className="text-zinc-100 text-right">{tripDetails.date}</Text>
+        </View>
 
         <TouchableOpacity
           activeOpacity={0.6}
-          className="w-9 h-9 bg-zinc-800 items-center justify-center rounded"
           onPress={() => setShowModal(MODAL.UPDATE_TRIP)}
         >
-          <Settings2 color={colors.zinc[400]} size={20} />
+          <View className="w-9 h-9 bg-zinc-800 items-center justify-center rounded-lg">
+            <Settings2 color={colors.zinc[400]} size={20} />
+          </View>
         </TouchableOpacity>
       </Input>
 
