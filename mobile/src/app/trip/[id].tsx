@@ -324,8 +324,10 @@ export default function Trip() {
             <Text className="font-semibold text-zinc-100">
               {dayjs(tripDetails.starts_at).date()} a{" "}
               {dayjs(tripDetails.ends_at).date()} de{" "}
-              {dayjs(tripDetails.ends_at).format("MMMM")}. {"\n\n"}
-            </Text>
+              {dayjs(tripDetails.ends_at).format("MMMM")} de{" "}
+              {dayjs(tripDetails.ends_at).format("YYYY")}
+            </Text>. {"\n\n"}
+            
             Para confirmar sua presença na viagem, preencha os dados abaixo:
           </Text>
 
