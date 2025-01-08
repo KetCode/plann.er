@@ -59,13 +59,7 @@ export default function Index() {
             return setStepForm(StepForm.ADD_EMAIL)
         }
 
-        Alert.alert("Nova viagem", "Confirmar viagem?", [{
-            text: "Não",
-            style: "cancel",
-        }, {
-            text: "Sim",
-            onPress: createTrip,
-        }])
+        createTrip()
     }
 
     function handleSelectDate(selectedDay: DateData) {
@@ -123,12 +117,7 @@ export default function Index() {
                 emails_to_invite: emailsToInvite,
             })
 
-            Alert.alert("Nova viagem", "Viagem criada com sucesso!", [
-                {
-                    text: "OK. Continuar.",
-                    onPress: () => saveTrip(newTrip.tripId),
-                },
-            ])
+            saveTrip(newTrip.tripId)
         } catch (error) {
             console.log(error)
             setIsCreatingTrip(false)
@@ -219,7 +208,7 @@ export default function Index() {
             </Modal>
 
             <Modal title="Selecionar convidados" subtitle="Os convidados irão receber e-mails para confirmar a participação na viagem." visible={showModal === MODAL.GUESTS} onClose={() => setShowModal(MODAL.NONE)}>
-                <View className="my-2 flex-wrap gap-2 border-b border-zinc-800 py-5 items-start">
+                <View className="my-2 flex-wrap gap-2 border-b border-zinc-800 pt-2 pb-5 items-start">
                     {emailsToInvite.length > 0 ? (emailsToInvite.map((email) => (
                         <GuestEmail key={email} email={email} onRemove={() => handleRemoveEmail(email)} />
                     ))) : (<Text className="text-zinc-600 text-base font-regular">Nenhum e-mail adicionado.</Text>)}
