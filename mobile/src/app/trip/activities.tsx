@@ -69,8 +69,6 @@ export function Activities({ tripDetails }: Props) {
         title: activityTitle,
       })
 
-      Alert.alert("Nova Atividade", "Nova atividade cadastrada com sucesso!")
-
       await getTripActivities()
       resetNewActivityFields()
     } catch (error) {
@@ -113,7 +111,7 @@ export function Activities({ tripDetails }: Props) {
 
   return (
     <View className="flex-1">
-      <View className="w-full flex-row mt-5 mb-6 items-center">
+      <View className="w-full flex-row mt-5 mb-2 items-center">
         <Text className="text-zinc-50 text-2xl font-semibold flex-1">
           Atividades
         </Text>
@@ -132,7 +130,7 @@ export function Activities({ tripDetails }: Props) {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <Activity data={item} />}
           renderSectionHeader={({ section }) => (
-            <View className="w-full">
+            <View className="w-full mt-6">
               <Text className="text-zinc-50 text-2xl font-semibold">
                 Dia {section.title.dayNumber + " "}
                 <Text className="text-zinc-500 text-base font-regular capitalize">
@@ -141,7 +139,7 @@ export function Activities({ tripDetails }: Props) {
               </Text>
 
               {section.data.length === 0 && (
-                <Text className="text-zinc-500 font-regular text-sm my-2">
+                <Text className="text-zinc-500 font-regular text-sm my-2.5 ">
                   Nenhuma atividade cadastrada nessa data.
                 </Text>
               )}

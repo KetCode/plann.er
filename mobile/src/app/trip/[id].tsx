@@ -115,15 +115,8 @@ export default function Trip() {
         ends_at: dayjs(selectedDates.endsAt.dateString).toISOString(),
       })
 
-      Alert.alert("Atualizar viagem", "Viagem atualizada com sucesso!", [
-        {
-          text: "OK",
-          onPress: () => {
-            setShowModal(MODAL.NONE)
-            getTripDetails()
-          },
-        },
-      ])
+      setShowModal(MODAL.NONE)
+      getTripDetails()
     } catch (error) {
       console.log(error)
     } finally {
@@ -155,8 +148,6 @@ export default function Trip() {
         name: guestName,
         email: guestEmail.trim(),
       })
-
-      Alert.alert("Confirmação", "Viagem confirmada com sucesso!")
 
       await tripStorage.save(tripParams.id)
 
@@ -199,7 +190,7 @@ export default function Trip() {
 
   return (
     <View className="flex-1 px-5 pt-16">
-      <Input variant="tertiary" className="h-16 gap-5">
+      <Input variant="tertiary" className="h-16 gap-5 rounded-xl">
         <View className="flex-1 flex-row items-center justify-between gap-5">
           <View className="flex-1 flex-row items-center gap-2">
             <MapPin color={colors.zinc[400]} size={20} />
@@ -226,7 +217,7 @@ export default function Trip() {
       )}
 
       <View className="w-full absolute -bottom-1 self-center justify-end pb-5 z-10 bg-zinc-950">
-        <View className="w-full flex-row bg-zinc-900 p-4 rounded-lg border border-zinc-800 gap-2">
+        <View className="w-full flex-row bg-zinc-900 p-4 rounded-xl border border-zinc-800 gap-2">
           <Button
             style={{ flex: 1 }}
             onPress={() => setOption("activity")}

@@ -19,7 +19,7 @@ export function Activity({ data }: Props) {
   return (
     <View
       className={clsx(
-        "w-full bg-zinc-900 px-4 py-3 rounded-lg flex-row items-center border border-zinc-800 gap-3",
+        "w-full bg-zinc-900 px-4 py-3 rounded-xl flex-row items-center border border-zinc-800 gap-3",
         { "opacity-50": data.isBefore }
       )}
     >
