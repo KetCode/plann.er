@@ -159,7 +159,7 @@ export default function Index() {
             <Text className="text-zinc-400 font-regular text-center text-lg mt-3">
                 Convide seus amigos e planeje sua{"\n"}próxima viagem!
             </Text>
-            <View className="w-full bg-zinc-900 px-4 py-3 rounded-xl my-8 border border-zinc-800 gap-1.5">
+            <View className="w-full bg-zinc-900 px-4 py-3 rounded-lg my-8 border border-zinc-800 gap-1.5">
                 <Input>
                     <MapPin color={colors.zinc[400]} size={20} />
                     <Input.Field placeholder="Para onde você vai?" editable={stepForm === StepForm.TRIP_DETAILS} onChangeText={setDestination} value={destination} />
