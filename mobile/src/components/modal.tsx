@@ -32,10 +32,10 @@ export function Modal({
         tint="dark"
         experimentalBlurMethod="dimezisBlurView"
       >
-        <View className="flex-1 justify-end bg-black/60">
-          <View className="bg-zinc-900 border-t border-zinc-700 px-6 pt-5 pb-10">
+        <View className="flex-1 justify-center bg-black/60">
+          <View className="bg-zinc-900 px-6 py-5 rounded-xl m-3">
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View className="flex-row justify-between items-center pt-5">
+              <View className="flex-row justify-between items-center">
                 <Text className="text-white font-medium text-xl">{title}</Text>
 
                 {onClose && (
@@ -46,7 +46,7 @@ export function Modal({
               </View>
 
               {subtitle.trim().length > 0 && (
-                <Text className="text-zinc-400 font-regular leading-6  my-2">
+                <Text className="text-zinc-400 font-regular text-sm leading-6 my-2">
                   {subtitle}
                 </Text>
               )}
