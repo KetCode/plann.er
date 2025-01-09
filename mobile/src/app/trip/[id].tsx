@@ -337,6 +337,7 @@ export default function Trip() {
             <Mail color={colors.zinc[400]} size={20} />
             <Input.Field
               placeholder="E-mail de confirmação"
+              keyboardType="email-address"
               onChangeText={setGuestEmail}
             />
           </Input>
