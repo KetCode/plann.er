@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { TextInput, TextInputProps, View, ViewProps, Platform } from "react-native"
+import { TextInput, TextInputProps, View, ViewProps, Platform, Pressable } from "react-native"
 import clsx from "clsx"
 
 import { colors } from "@/styles/colors"
@@ -26,8 +26,12 @@ function Input({ children, variant = "primary", className, ...rest }: InputProps
         </View>)
 }
 
-function Field({ ...rest }: TextInputProps) {
-    return <TextInput className="flex-1 text-zinc-100" placeholderTextColor={colors.zinc[400]} cursorColor={colors.zinc[100]} selectionColor={Platform.OS === "ios" ? colors.zinc[100] : undefined} {...rest} />
+function Field({ onPress, ...rest }: TextInputProps) {
+    return (
+        <Pressable onPress={onPress}>
+            <TextInput className="flex-1 text-zinc-100" placeholderTextColor={colors.zinc[400]} cursorColor={colors.zinc[100]} selectionColor={Platform.OS === "ios" ? colors.zinc[100] : undefined} editable={!onPress} {...rest} />
+        </Pressable>
+    )
 }
 
 Input.Field = Field
