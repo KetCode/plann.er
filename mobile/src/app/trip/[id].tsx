@@ -63,7 +63,7 @@ export default function Trip() {
 
       const trip = await tripServer.getById(tripParams.id)
 
-      const maxLengthDestination = 14
+      const maxLengthDestination = 13
       const destination =
         trip.destination.length > maxLengthDestination
           ? trip.destination.slice(0, maxLengthDestination) + "..."
@@ -190,7 +190,7 @@ export default function Trip() {
 
   return (
     <View className="flex-1 px-5 pt-16">
-      <Input variant="tertiary" className="h-16 gap-5 rounded-xl">
+      <Input variant="tertiary" className="h-16 gap-2 rounded-xl">
         <View className="flex-1 flex-row items-center justify-between gap-5">
           <View className="flex-1 flex-row items-center gap-2">
             <MapPin color={colors.zinc[400]} size={20} />
