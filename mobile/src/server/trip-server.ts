@@ -9,38 +9,38 @@ export type TripDetails = {
 }
 
 type TripCreate = Omit<TripDetails, "id" | "is_confirmed"> & {
-    emails_to_invite: string[]
-  }
+  emails_to_invite: string[]
+}
 
 async function getById(id: string) {
-    try {
-      const { data } = await api.get<{ trip: TripDetails }>(`/trips/${id}`)
-      return data.trip
-    } catch (error) {
-      throw error
-    }
+  try {
+    const { data } = await api.get<{ trip: TripDetails }>(`/trips/${id}`)
+    return data.trip
+  } catch (error) {
+    throw error
+  }
 }
 
 async function create({
-    destination,
-    starts_at,
-    ends_at,
-    emails_to_invite,
-  }: TripCreate) {
-    try {
-      const { data } = await api.post<{ tripId: string }>("/trips", {
-        destination,
-        starts_at,
-        ends_at,
-        emails_to_invite,
-        owner_name: "Kesse",
-        owner_email: "kesse.matias@gmail.com",
-      })
-  
-      return data
-    } catch (error) {
-      throw error
-    }
+  destination,
+  starts_at,
+  ends_at,
+  emails_to_invite,
+}: TripCreate) {
+  try {
+    const { data } = await api.post<{ tripId: string }>("/trips", {
+      destination,
+      starts_at,
+      ends_at,
+      emails_to_invite,
+      owner_name: "Kesse",
+      owner_email: "kesse.matias@gmail.com",
+    })
+
+    return data
+  } catch (error) {
+    throw error
+  }
 }
 
 async function update({
