@@ -46,6 +46,17 @@ export function Activities({ tripDetails }: Props) {
   // LISTS
   const [tripActivities, setTripActivities] = useState<TripActivities[]>([])
 
+  const handleActivityHourChange = (text: string) => {
+    let formattedHour = text.replace(/[^0-9:]/g, "");
+
+    // Se já tiver 2 números e não houver o ":", adicionar o ":"
+    if (formattedHour.length > 2 && formattedHour.indexOf(":") === -1) {
+      formattedHour = formattedHour.slice(0, 2) + ":" + formattedHour.slice(2, 4);
+    }
+
+    setActivityHour(formattedHour)
+  }
+
   function resetNewActivityFields() {
     setActivityDate("")
     setActivityTitle("")
@@ -55,6 +66,8 @@ export function Activities({ tripDetails }: Props) {
 
   async function handleCreateTripActivity() {
     try {
+      const [hours, minutes] = activityHour.split(":").map((val) => parseInt(val, 10))
+
       if (!activityTitle || !activityDate || !activityHour) {
         return Alert.alert("Cadastrar atividade", "Preencha todos os campos!")
       }
@@ -64,7 +77,8 @@ export function Activities({ tripDetails }: Props) {
       await activitiesServer.create({
         tripId: tripDetails.id,
         occurs_at: dayjs(activityDate)
-          .add(Number(activityHour), "h")
+          .add(Number(hours), "h")
+          .add(Number(minutes), "m")
           .toISOString(),
         title: activityTitle,
       })
@@ -185,12 +199,11 @@ export function Activities({ tripDetails }: Props) {
               <Clock color={colors.zinc[400]} size={20} />
               <Input.Field
                 placeholder="Horário"
-                onChangeText={(text) =>
-                  setActivityHour(text.replace(".", "").replace(",", ""))
+                onChangeText={handleActivityHourChange
                 }
                 value={activityHour}
                 keyboardType="numeric"
-                maxLength={2}
+                maxLength={5}
               />
             </Input>
           </View>
