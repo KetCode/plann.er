@@ -79,8 +79,9 @@ def find_trip_link(tripId):
 @trips_routes_bp.route("/trips/<tripId>/invites", methods=["POST"])
 def invite_to_trip(tripId):
     conn = db_connection_handler.get_connection()
+    trips_repository = TripsRepository(conn)
     participants_repository = ParticipantsRepository(conn)
-    controller = ParticipantCreator(participants_repository)
+    controller = ParticipantCreator(participants_repository, trips_repository)
 
     response = controller.create(request.json, tripId)
 
