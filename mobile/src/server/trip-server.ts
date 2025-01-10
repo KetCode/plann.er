@@ -9,6 +9,8 @@ export type TripDetails = {
 }
 
 type TripCreate = Omit<TripDetails, "id" | "is_confirmed"> & {
+  owner_name: string
+  owner_email: string
   emails_to_invite: string[]
 }
 
@@ -25,6 +27,8 @@ async function create({
   destination,
   starts_at,
   ends_at,
+  owner_name,
+  owner_email,
   emails_to_invite,
 }: TripCreate) {
   try {
@@ -33,8 +37,8 @@ async function create({
       starts_at,
       ends_at,
       emails_to_invite,
-      owner_name: "Kesse",
-      owner_email: "kesse.matias@gmail.com",
+      owner_name,
+      owner_email,
     })
 
     return data
