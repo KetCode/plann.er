@@ -58,7 +58,7 @@ class TripCreator:
                     send_email(
                         [email],
                         "Confirmação de Presença!",
-                        email_confirm_participant(participant_id, destination, displayedDate, WEB_PORT)
+                        email_confirm_participant(trip_id, participant_id, destination, displayedDate, WEB_PORT)
                     )
 
             send_email(

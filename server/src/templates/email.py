@@ -95,7 +95,7 @@ def email_confirm_trip(trip_id, destination, displayedDate, PORT):
         </html>
     """
 
-def email_confirm_participant(participant_id, destination, displayedDate, PORT):
+def email_confirm_participant(trip_id, participant_id, destination, displayedDate, PORT):
     logo_url = "https://raw.githubusercontent.com/KetCode/plann.er/253e045e8eb3513a86571758eb4df2432c4cb5b1/server/src/static/logo.svg"
     icon_url = "https://raw.githubusercontent.com/KetCode/plann.er/253e045e8eb3513a86571758eb4df2432c4cb5b1/server/src/static/icon.svg"
 
@@ -134,7 +134,7 @@ def email_confirm_participant(participant_id, destination, displayedDate, PORT):
                     font-size: 24px;
                     color: #333333;
                 }}
-                .content p {{
+                .content p, span {{
                     font-size: 16px;
                     color: #666666;
                     margin-bottom: 20px;
@@ -179,6 +179,8 @@ def email_confirm_participant(participant_id, destination, displayedDate, PORT):
                     <h1>You’re one click away!</h1>
                     <p>We’re prepared to make sure you have an amazing experience on your trip to <span class="bold">{destination}</span> on <span class="bold">{displayedDate}</span>. Please confirm your attendance below:</p>
                     <a href="http://localhost:{PORT}/participants/{participant_id}/confirm" class="button">Confirm attendance</a>
+                    <span>or</span>
+                    <a href="planner://trip/{trip_id}?participants={participant_id}" class="button">Confirm in the app</a>
                     <br/><br/>
                     <p>If you are unsure what this email is about or will not be able to attend, please just <u>ignore this email</u>.</p>
                 </div>
