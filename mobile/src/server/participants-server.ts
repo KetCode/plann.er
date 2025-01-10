@@ -19,6 +19,10 @@ type InviteParticipant = Omit<Participant, "id" | "name"> & {
   name: null
 }
 
+type RemoveParticipant = Omit<Participant, "id" | "name" | "is_confirmed" | "is_owner"> & {
+  tripId: string
+}
+
 async function getByTripId(tripId: string) {
   try {
     const { data } = await api.get<{ participants: Participant[] }>(
@@ -55,4 +59,12 @@ async function inviteNewParticipant({ tripId, name, email, is_confirmed, is_owne
   }
 }
 
-export const participantsServer = { getByTripId, confirmTripByParticipantId, inviteNewParticipant }
+async function remove({ tripId, email }: RemoveParticipant) {
+  try {
+    await api.delete(`/trips/${tripId}/participants/${email}`)
+  } catch (error) {
+    throw error
+    }
+}
+
+export const participantsServer = { getByTripId, confirmTripByParticipantId, inviteNewParticipant, remove }
