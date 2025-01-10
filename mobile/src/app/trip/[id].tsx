@@ -7,7 +7,7 @@ import { DateData } from "react-native-calendars"
 import { Calendar } from "@/components/calendar"
 import { Loading } from "@/components/loading"
 import { Button } from "@/components/button"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Input } from "@/components/input"
 import { Modal } from "@/components/modal"
 import { Activities } from "./activities"
@@ -337,26 +337,16 @@ export default function Trip() {
 
       <Modal
         title="Confirmar presença"
+        subtitle={
+          <>
+          Você foi convidado(a) para participar de uma viagem para <Text className="font-semibold text-zinc-100">{destination}</Text> nas datas de <Text className="font-semibold text-zinc-100">{dayjs(selectedDates.startsAt?.dateString).date()} a{" "}{dayjs(selectedDates.endsAt?.dateString).date()} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("MMMM")} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("YYYY")}</Text>.
+          {"\n\n"}
+          Para confirmar sua presença na viagem, preencha os dados abaixo:
+          </>
+        }
         visible={showModal === MODAL.CONFIRM_ATTENDANCE}
       >
         <View className="gap-4 mt-4">
-          <Text className="text-zinc-400 font-regular leading-6 my-2">
-            Você foi convidado(a) para participar de uma viagem para
-            <Text className="font-semibold text-zinc-100">
-              {" "}
-              {tripDetails.destination}{" "}
-            </Text>
-            nas datas de{" "}
-            <Text className="font-semibold text-zinc-100">
-              {dayjs(tripDetails.starts_at).date()} a{" "}
-              {dayjs(tripDetails.ends_at).date()} de{" "}
-              {dayjs(tripDetails.ends_at).format("MMMM")} de{" "}
-              {dayjs(tripDetails.ends_at).format("YYYY")}
-            </Text>. {"\n\n"}
-            
-            Para confirmar sua presença na viagem, preencha os dados abaixo:
-          </Text>
-
           <Input variant="secondary">
             <User color={colors.zinc[400]} size={20} />
             <Input.Field
