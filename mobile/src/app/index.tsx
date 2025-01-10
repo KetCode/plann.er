@@ -1,4 +1,4 @@
-import { MapPin, Calendar as IconCalendar, Settings2, UserRoundPlus, ArrowRight, AtSign } from "lucide-react-native"
+import { MapPin, Calendar as IconCalendar, Settings2, UserRoundPlus, ArrowRight, AtSign, Mail, User } from "lucide-react-native"
 import { View, Text, Image, Keyboard, Alert } from "react-native"
 import { calendarUtils, DatesSelected } from "@/utils/calendarUtils"
 import { validateInput } from "@/utils/validateInput"
@@ -13,7 +13,7 @@ import { Input } from "@/components/input"
 import { Modal } from "@/components/modal"
 import { colors } from "@/styles/colors"
 import { router } from "expo-router"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import dayjs from "dayjs"
 
 enum StepForm {
@@ -25,6 +25,7 @@ enum MODAL {
     NONE = 0,
     CALENDAR = 1,
     GUESTS = 2,
+    OWNER = 3,
 }
 
 
@@ -41,6 +42,10 @@ export default function Index() {
     // EMAIL
     const [emailToInvite, setEmailToInvite] = useState("")
     const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
+
+    // OWNER
+    const [ownerName, setOwnerName] = useState("")
+    const [ownerEmail, setOwnerEmail] = useState("")
 
     // LOADING
     const [isCreatingTrip, setIsCreatingTrip] = useState(false)
@@ -59,7 +64,7 @@ export default function Index() {
             return setStepForm(StepForm.ADD_EMAIL)
         }
 
-        createTrip()
+        setShowModal(MODAL.OWNER)
     }
 
     function handleSelectDate(selectedDay: DateData) {
@@ -107,6 +112,8 @@ export default function Index() {
     }
 
     async function createTrip() {
+        setShowModal(MODAL.NONE)
+
         try {
             setIsCreatingTrip(true)
 
@@ -114,6 +121,8 @@ export default function Index() {
                 destination,
                 starts_at: dayjs(selectedDates.startsAt?.dateString).toISOString(),
                 ends_at: dayjs(selectedDates.endsAt?.dateString).toISOString(),
+                owner_name: ownerName,
+                owner_email: ownerEmail,
                 emails_to_invite: emailsToInvite,
             })
 
@@ -222,6 +231,32 @@ export default function Index() {
 
                     <Button onPress={handleAddEmail}>
                         <Button.Title>Convidar</Button.Title>
+                    </Button>
+                </View>
+            </Modal>
+
+            <Modal 
+                title="Confirmar criação da viagem" 
+                subtitle={
+                    <>
+                    Para concluir a criação da viagem para <Text className="font-semibold text-zinc-100">{destination}</Text> nas datas de <Text className="font-semibold text-zinc-100">{dayjs(selectedDates.startsAt?.dateString).date()} a{" "}{dayjs(selectedDates.endsAt?.dateString).date()} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("MMMM")} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("YYYY")}</Text> preencha seus dados abaixo:
+                    </>
+                }
+                visible={showModal === MODAL.OWNER} 
+                onClose={() => setShowModal(MODAL.NONE)}>
+
+                <View className="gap-4 mt-4">
+                    <Input variant="secondary">
+                        <User color={colors.zinc[400]} size={20} />
+                        <Input.Field placeholder="Seu nome completo" onChangeText={setOwnerName} />
+                    </Input>
+                    <Input variant="secondary">
+                        <Mail color={colors.zinc[400]} size={20} />
+                        <Input.Field placeholder="Seu e-mail pessoal" keyboardType="email-address" onChangeText={setOwnerEmail} />
+                    </Input>
+
+                    <Button onPress={createTrip}>
+                        <Button.Title>Confirmar criação da viagem</Button.Title>
                     </Button>
                 </View>
             </Modal>
