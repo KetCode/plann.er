@@ -49,6 +49,19 @@ export default function Trip() {
     participant?: string
   }>()
 
+  function getAllDatesBetween(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) {
+    let dates: { [key: string]: {} } = {}
+    let currentDate = startDate.clone()
+
+    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
+      const dateString = currentDate.format('YYYY-MM-DD')
+      dates[dateString] = { selected: true }
+      currentDate = currentDate.add(1, 'day')
+    }
+  
+    return dates;
+  }
+
   async function getTripDetails() {
     try {
       setIsLoadingTrip(true)
@@ -75,6 +88,25 @@ export default function Trip() {
         ...trip,
         when: `${destination}`,
         date: `${dayjs(trip.starts_at).format("DD")} de ${dayjs(trip.starts_at).format("MMM")} a ${dayjs(trip.ends_at).format("DD")} de ${dayjs(trip.starts_at).format("MMM")}`,
+      })
+
+      setSelectedDates({
+        startsAt: { 
+          day: dayjs(trip.starts_at).date(),
+          month: dayjs(trip.starts_at).month() + 1,
+          year: dayjs(trip.starts_at).year(),
+          timestamp: dayjs(trip.starts_at).valueOf(),
+          dateString: dayjs(trip.starts_at).format("YYYY-MM-DD"),
+        },
+        endsAt: { 
+          day: dayjs(trip.ends_at).date(),
+          month: dayjs(trip.ends_at).month() + 1,
+          year: dayjs(trip.ends_at).year(),
+          timestamp: dayjs(trip.ends_at).valueOf(),
+          dateString: dayjs(trip.ends_at).format("YYYY-MM-DD")
+        },
+        dates: getAllDatesBetween(dayjs(trip.starts_at), dayjs(trip.ends_at)),
+        formatDatesInText: tripDetails.date
       })
     } catch (error) {
       console.log(error)
