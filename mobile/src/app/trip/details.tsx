@@ -65,8 +65,14 @@ export function Details({ tripId }: { tripId: string }) {
         }
     }
 
-    function handleRemoveEmail(emailToRemove: string) {
-        setEmailsToInvite((prevState) => prevState.filter((email) => email !== emailToRemove))
+    async function handleRemoveEmail(email: string) {
+        const updatedParticipants = participants.filter((participant) => participant.email !== email)
+        setParticipants(updatedParticipants)
+
+        await participantsServer.remove({
+            tripId,
+            email
+        })
     }
 
     async function handleAddEmail() {
@@ -191,11 +197,14 @@ export function Details({ tripId }: { tripId: string }) {
             title="Selecionar convidados"
             subtitle="Os convidados irão receber e-mails para confirmar a participação na viagem."
             visible={showManageGuestsModal}
-            onClose={() => setShowManageGuestsModal(false)}
+            onClose={() => {
+                setShowManageGuestsModal(false)
+                getTripParticipants()
+            }}
         >
             <View className="my-2 flex-wrap gap-2 border-b border-zinc-800 pt-2 pb-5 items-start">
-                {emailsToInvite.length > 0 ? (emailsToInvite.map((email) => (
-                    <GuestEmail key={email} email={email} onRemove={() => handleRemoveEmail(email)} />
+                {participants.length > 0 ? (participants.map((participant) => (
+                    <GuestEmail key={participant.id} email={participant.email} onRemove={() => handleRemoveEmail(participant.email)} />
                 ))) : (<Text className="text-zinc-600 text-base font-regular">Nenhum e-mail adicionado.</Text>)}
             </View>
 
