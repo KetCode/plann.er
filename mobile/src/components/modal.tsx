@@ -7,13 +7,14 @@ import {
   Modal as RNModal,
   TouchableOpacity,
 } from "react-native"
+import { ReactNode } from "react"
 import { BlurView } from "expo-blur"
 
 import { colors } from "@/styles/colors"
 
 type Props = ModalProps & {
   title: string
-  subtitle?: string
+  subtitle?: ReactNode
   onClose?: () => void
 }
 
@@ -45,11 +46,9 @@ export function Modal({
                 )}
               </View>
 
-              {subtitle.trim().length > 0 && (
-                <Text className="text-zinc-400 font-regular text-sm leading-6 my-2">
-                  {subtitle}
-                </Text>
-              )}
+              <Text className="text-zinc-400 font-regular text-sm leading-6 my-2">
+                {subtitle}
+              </Text>
 
               {children}
             </ScrollView>
