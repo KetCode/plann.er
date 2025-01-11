@@ -8,12 +8,6 @@ export type Participant = {
   is_owner: boolean
 }
 
-type ParticipantConfirm = {
-  participantId: string
-  name: string
-  email: string
-}
-
 type InviteParticipant = Omit<Participant, "id" | "name"> & {
   tripId: string
   name: null
@@ -36,12 +30,14 @@ async function getByTripId(tripId: string) {
 }
 
 async function confirmTripByParticipantId({
-  participantId,
+  id,
   name,
   email,
-}: ParticipantConfirm) {
+  is_confirmed,
+  is_owner
+}: Participant) {
   try {
-    await api.put(`/participants/${participantId}/confirm`, { name, email })
+    await api.put(`/participants/${id}/confirm`, { name, email, is_confirmed, is_owner })
   } catch (error) {
     throw error
   }

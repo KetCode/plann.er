@@ -176,9 +176,11 @@ export default function Trip() {
       setIsConfirmingAttendance(true)
 
       await participantsServer.confirmTripByParticipantId({
-        participantId: tripParams.participant,
-        name: guestName,
+        id: tripParams.participant,
+        name: guestName.trim(),
         email: guestEmail.trim(),
+        is_confirmed: true,
+        is_owner: false,
       })
 
       await tripStorage.save(tripParams.id)
