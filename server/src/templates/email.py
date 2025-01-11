@@ -167,6 +167,14 @@ def email_confirm_participant(trip_id, participant_id, destination, displayedDat
                     color: #666666;
                     text-decoration: none;
                 }}
+
+                @media (max-width: 475px) {{
+                  .column {{
+                    display: block;
+                    margin-top: 12px;
+                    margin-bottom: 12px
+                  }}
+                }}
             </style>
         </head>
         <body>
@@ -179,8 +187,8 @@ def email_confirm_participant(trip_id, participant_id, destination, displayedDat
                     <h1>You’re one click away!</h1>
                     <p>We’re prepared to make sure you have an amazing experience on your trip to <span class="bold">{destination}</span> on <span class="bold">{displayedDate}</span>. Please confirm your attendance below:</p>
                     <a href="http://localhost:{PORT}/participants/{participant_id}/confirm" class="button">Confirm attendance</a>
-                    <span>or</span>
-                    <a href="planner://trip/{trip_id}?participants={participant_id}" class="button">Confirm in the app</a>
+                    <span class="column">or</span>
+                    <a href="planner://trip/{trip_id}?participant={participant_id}" class="button">Confirm in the app</a>
                     <br/><br/>
                     <p>If you are unsure what this email is about or will not be able to attend, please just <u>ignore this email</u>.</p>
                 </div>
