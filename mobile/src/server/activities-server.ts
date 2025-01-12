@@ -17,6 +17,10 @@ type ActivityResponse = {
   }[]
 }
 
+type ActivityRemove = Omit<Activity, "title" | "occurs_at"> & {
+  tripId: string
+}
+
 async function create({ tripId, occurs_at, title }: ActivityCreate) {
   try {
     const { data } = await api.post<{ activityId: string }>(
@@ -41,4 +45,12 @@ async function getActivitiesByTripId(tripId: string) {
   }
 }
 
-export const activitiesServer = { create, getActivitiesByTripId }
+async function remove({ tripId, id }: ActivityRemove){
+  try {
+    await api.delete(`/trips/${tripId}/activities/${id}`)
+  } catch (error) {
+    throw error
+    }
+}
+
+export const activitiesServer = { create, getActivitiesByTripId, remove }
