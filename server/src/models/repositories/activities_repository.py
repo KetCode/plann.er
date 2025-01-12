@@ -29,3 +29,19 @@ class ActivitiesRepository:
         )
         activities = cursor.fetchall()
         return activities
+
+    def remove_activity(self, trip_id: str, id: str) -> None:
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            '''
+                DELETE FROM activities
+                WHERE
+                    trip_id = ?
+                AND
+                    id = ?
+            ''', (
+                trip_id, 
+                id,
+            )
+        )
+        self.__conn.commit()

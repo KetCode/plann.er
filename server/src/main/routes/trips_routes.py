@@ -14,6 +14,7 @@ from src.controllers.participant_confirmer import ParticipantConfirmer
 from src.controllers.participant_remover import ParticipantRemover
 from src.controllers.activity_creator import ActivityCreator
 from src.controllers.activity_finder import ActivityFinder
+from src.controllers.activity_remover import ActivityRemover
 
 from src.models.repositories.trips_repository import TripsRepository
 from src.models.repositories.links_repository import LinksRepository
@@ -155,5 +156,15 @@ def find_participant(participantId):
     controller = ParticipantFinder(participants_repository)
 
     response = controller.find(participantId)
+
+    return jsonify(response["body"]), response["status_code"]
+
+@trips_routes_bp.route("/trips/<tripId>/activities/<id>", methods=["DELETE"])
+def remove_activity(tripId, id):
+    conn = db_connection_handler.get_connection()
+    activities_repository = ActivitiesRepository(conn)
+    controller = ActivityRemover(activities_repository)
+
+    response = controller.remove(tripId, id)
 
     return jsonify(response["body"]), response["status_code"]
