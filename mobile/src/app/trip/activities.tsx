@@ -113,7 +113,12 @@ export function Activities({ tripDetails }: Props) {
           title: activity.title,
           hour: dayjs(activity.occurs_at).format("HH[:]mm[h]"),
           isBefore: dayjs(activity.occurs_at).isBefore(dayjs()),
-        })),
+        })).sort((a, b) => {
+          // Converte as horas para um formato numérico para ordenar corretamente
+          const [hourA, minuteA] = a.hour.split(":").map((val) => parseInt(val, 10));
+          const [hourB, minuteB] = b.hour.split(":").map((val) => parseInt(val, 10));
+          return hourA * 60 + minuteA - (hourB * 60 + minuteB); // Compara em minutos
+        }),
       }))
 
       setTripActivities(activitiesToSectionList)
