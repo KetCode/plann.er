@@ -1,9 +1,9 @@
-import { View, Text, Keyboard, Alert, SectionList } from "react-native";
+import { View, Text, Keyboard, Alert, SectionList, TouchableOpacity } from "react-native";
 import { TripData } from "./[id]"
 import { Button } from "@/components/button";
 import { colors } from "@/styles/colors";
-import { PlusIcon, Tag, Calendar as IconCalendar, Clock } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { PlusIcon, Tag, Calendar as IconCalendar, Clock, Trash2 } from "lucide-react-native";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "@/components/modal";
 import { Input } from "@/components/input";
 import dayjs from "dayjs";
@@ -11,6 +11,8 @@ import { Calendar } from "@/components/calendar";
 import { activitiesServer } from "@/server/activities-server";
 import { Activity, ActivityProps } from "@/components/activity";
 import { Loading } from "@/components/loading";
+import Swipeable, { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type Props = {
   tripDetails: TripData
@@ -45,6 +47,9 @@ export function Activities({ tripDetails }: Props) {
 
   // LISTS
   const [tripActivities, setTripActivities] = useState<TripActivities[]>([])
+
+  // SWIPE
+  const openSwipeableRef = useRef<SwipeableMethods | null>(null)
 
   const handleActivityHourChange = (text: string) => {
     let formattedHour = text.replace(/[^0-9:]/g, "");
@@ -119,6 +124,26 @@ export function Activities({ tripDetails }: Props) {
     }
   }
 
+  function handleRemoveActivity(id: string) {
+    try {
+      activitiesServer.remove({
+        tripId: tripDetails.id,
+        id,
+      })
+      getTripActivities()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function onSwipeableWillOpen (current: SwipeableMethods | null) {
+    if(openSwipeableRef.current && openSwipeableRef.current !== current) {
+      openSwipeableRef.current.close()
+    }
+
+    openSwipeableRef.current = current
+  }
+
   useEffect(() => {
     getTripActivities()
   }, [])
@@ -142,7 +167,32 @@ export function Activities({ tripDetails }: Props) {
         <SectionList
           sections={tripActivities}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Activity data={item} />}
+          renderItem={({ item }) => {
+            let current: SwipeableMethods | null = null
+            return (
+              <GestureHandlerRootView>
+                <Swipeable
+                  ref={(swipeable) => (current = swipeable)}
+                  containerStyle={{
+                    borderRadius: 12,
+                    borderWidth: 1,
+                    borderColor: colors.zinc[800],
+                    backgroundColor: colors.zinc[900]
+                  }}
+                  overshootRight={false}
+                  friction={2}
+                  rightThreshold={10}
+                  onSwipeableWillOpen={() => onSwipeableWillOpen(current)}
+                  renderRightActions={() => (
+                    <TouchableOpacity  onPress={() => handleRemoveActivity(item.id)} style={{ justifyContent: 'center', alignItems: 'center', height: '100%', width: 48, backgroundColor: '#E83D55', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} activeOpacity={0.6}>
+                      <Trash2 color={'#FFF'} size={20} />
+                    </TouchableOpacity>
+                  )}>
+                  <Activity data={item} />
+                </Swipeable>
+              </GestureHandlerRootView>
+            )
+          }}
           renderSectionHeader={({ section }) => (
             <View className="w-full mt-6">
               <Text className="text-zinc-50 text-2xl font-semibold">
