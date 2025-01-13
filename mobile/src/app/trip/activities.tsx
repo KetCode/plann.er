@@ -82,9 +82,9 @@ export function Activities({ tripDetails }: Props) {
       await activitiesServer.create({
         tripId: tripDetails.id,
         occurs_at: dayjs(activityDate)
-          .add(Number(hours), "h")
-          .add(Number(minutes), "m")
-          .toISOString(),
+          .set("hour", hours)
+          .set("minute", minutes)
+          .format("YYYY-MM-DDTHH:mm"),
         title: activityTitle,
       })
 
@@ -124,9 +124,9 @@ export function Activities({ tripDetails }: Props) {
     }
   }
 
-  function handleRemoveActivity(id: string) {
+  async function handleRemoveActivity(id: string) {
     try {
-      activitiesServer.remove({
+      await activitiesServer.remove({
         tripId: tripDetails.id,
         id,
       })
@@ -136,8 +136,8 @@ export function Activities({ tripDetails }: Props) {
     }
   }
 
-  function onSwipeableWillOpen (current: SwipeableMethods | null) {
-    if(openSwipeableRef.current && openSwipeableRef.current !== current) {
+  function onSwipeableWillOpen(current: SwipeableMethods | null) {
+    if (openSwipeableRef.current && openSwipeableRef.current !== current) {
       openSwipeableRef.current.close()
     }
 
@@ -184,7 +184,7 @@ export function Activities({ tripDetails }: Props) {
                   rightThreshold={10}
                   onSwipeableWillOpen={() => onSwipeableWillOpen(current)}
                   renderRightActions={() => (
-                    <TouchableOpacity  onPress={() => handleRemoveActivity(item.id)} style={{ justifyContent: 'center', alignItems: 'center', height: '100%', width: 48, backgroundColor: '#E83D55', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} activeOpacity={0.6}>
+                    <TouchableOpacity onPress={() => handleRemoveActivity(item.id)} style={{ justifyContent: 'center', alignItems: 'center', height: '100%', width: 48, backgroundColor: '#E83D55', borderTopRightRadius: 12, borderBottomRightRadius: 12 }} activeOpacity={0.6}>
                       <Trash2 color={'#FFF'} size={20} />
                     </TouchableOpacity>
                   )}>
