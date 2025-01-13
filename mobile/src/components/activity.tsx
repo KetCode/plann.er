@@ -18,10 +18,7 @@ type Props = {
 export function Activity({ data }: Props) {
   return (
     <View
-      className={clsx(
-        "w-full bg-zinc-900 px-4 py-3 rounded-xl flex-row items-center border border-zinc-800 gap-3",
-        { "opacity-50": data.isBefore }
-      )}
+      className={"w-full bg-zinc-900 px-4 py-3 flex-row items-center gap-3"}
     >
       {data.isBefore ? (
         <CircleCheck color={colors.lime[300]} size={20} />
