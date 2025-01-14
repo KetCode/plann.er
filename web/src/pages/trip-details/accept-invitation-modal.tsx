@@ -72,7 +72,6 @@ export function AccceptInvitationModal({ closeAcceptInvitationModal }: AccceptIn
         </>
       }
       buttonText={"Confirmar minha presença"}
-      closeButton={closeAcceptInvitationModal}
       submitButton={confirmParticipant}
     >
       <div className='px-4 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
