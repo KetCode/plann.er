@@ -2,8 +2,9 @@ import { Link2, Tag } from "lucide-react";
 import { Modal } from "../../components/modal";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { enableBodyScroll } from "@blro/body-scroll-lock";
+import { isValidUrl } from "../../components/validateInput";
 
 interface CreateLinkModalProps {
   closeCreateLinkModal: () => void
@@ -11,6 +12,7 @@ interface CreateLinkModalProps {
 
 export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) {
   const { tripId } = useParams()
+  const [error, setError] = useState<string | null>()
 
   async function createLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -20,10 +22,15 @@ export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) 
     const title = data.get('title')?.toString()
     const url = data.get('url')?.toString()
 
+    if(!title || !url || !isValidUrl(url)) {
+      return setError("Por favor, preencha todos os campos corretamente")
+    }
+
     await api.post(`/trips/${tripId}/link`, { title, url })
 
     enableBodyScroll()
     location.reload()
+    setError(null)
   }
 
   return (
@@ -37,6 +44,8 @@ export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) 
         <Link2 className='text-zinc-400 size-5' />
         <input name='url' placeholder="URL" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
       </div>
+
+      {error && <p className="text-red-700 text-sm mt-2">{error}</p>}
     </Modal>
   )
 }
