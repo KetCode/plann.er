@@ -11,7 +11,7 @@ interface InviteGuestsModalProps {
 
 export function InviteGuestsModal({ addNewEmailToInvite, closeGuestsModal, emailsToInvite, removeEmailFromInvites }: InviteGuestsModalProps) {
   const [error, setError] = useState<string | null>()
-  
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     const form = new FormData(event.currentTarget)
     const email = form.get("email")?.toString()
@@ -53,6 +53,8 @@ export function InviteGuestsModal({ addNewEmailToInvite, closeGuestsModal, email
 
         <div className='w-full h-px bg-zinc-800' />
 
+        {error && <p className="text-red-700 text-sm mt-2">{error}</p>}
+
         <form onSubmit={handleSubmit} className='p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
           <div className='sm:px-2 flex items-center flex-1 gap-2'>
             <AtSign className='text-zinc-400 size-5' />
@@ -64,8 +66,6 @@ export function InviteGuestsModal({ addNewEmailToInvite, closeGuestsModal, email
             <Plus className='size-5' />
           </Button>
         </form>
-        
-        {error && <p className="text-red-700 text-sm mt-2">{error}</p>}
       </div>
     </div>
   )
