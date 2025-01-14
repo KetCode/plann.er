@@ -20,6 +20,7 @@ export function CreateTripPage() {
   const [ownerName, setOwnerName] = useState('')
   const [ownerEmail, setOwnerEmail] = useState('')
   const [emailsToInvite, setEmailsToInvite] = useState(['kesse.matias@gmail.com', 'john@test.com'])
+  const [error, setError] = useState<string | null>()
 
   function openGuestsInput() {
     setIsGuestsInputOpen(true)
@@ -59,12 +60,8 @@ export function CreateTripPage() {
       return
     }
 
-    if (emailsToInvite.includes(email)) {
-      return
-    }
-
     setEmailsToInvite([...emailsToInvite, email])
-
+    setError(null)
     event.currentTarget.reset()
   }
 
@@ -90,8 +87,10 @@ export function CreateTripPage() {
     } */
 
     if (!ownerName || !ownerEmail) {
-      return
+      return setError("Por favor, preencha todos os campos")
     }
+
+    setError(null)
 
     const response = await api.post('/trips', {
       destination,
@@ -158,6 +157,7 @@ export function CreateTripPage() {
           ends_at={eventStartAndEndDates?.to}
           setOwnerName={setOwnerName}
           setOwnerEmail={setOwnerEmail}
+          error={error}
         />
       )}
     </div>
