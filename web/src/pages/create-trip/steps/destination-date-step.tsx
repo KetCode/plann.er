@@ -1,6 +1,6 @@
 import { ArrowRight, Calendar, MapPin, Settings2, X } from "lucide-react";
 import { Button } from "../../../components/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import { format } from 'date-fns'
 import 'react-day-picker/dist/style.css'
@@ -16,6 +16,7 @@ interface DestinationDateStepProps {
 
 export function DestinationDateStep({ isGuestsInputOpen, closeGuestsInput, openGuestsInput, setDestination, eventStartAndEndDates, setEventStartAndEndDates }: DestinationDateStepProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const destinationRef = useRef<HTMLInputElement>(null)
   const today = new Date()
 
   function openDatePicker() {
@@ -28,12 +29,13 @@ export function DestinationDateStep({ isGuestsInputOpen, closeGuestsInput, openG
 
   const displayedDate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL")) : null
 
+  const isFormValid = destinationRef.current?.value.trim() !== '' && displayedDate !== null
 
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl sm:flex max-sm:h-36 max-sm:py-3 items-center shadow-shape gap-3">
       <div className="flex items-center gap-2 flex-1">
         <MapPin className='size-5 text-zinc-400' />
-        <input disabled={isGuestsInputOpen} onChange={event => setDestination(event.target.value)} type="text" placeholder="Para onde você vai?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+        <input ref={destinationRef} disabled={isGuestsInputOpen} onChange={event => setDestination(event.target.value)} type="text" placeholder="Para onde você vai?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
       </div>
 
       <button  onClick={openDatePicker} disabled={isGuestsInputOpen} className="flex items-center gap-2 text-left w-60 max-sm:my-3">
@@ -66,7 +68,7 @@ export function DestinationDateStep({ isGuestsInputOpen, closeGuestsInput, openG
           <Settings2 className='size-5' />
         </Button>
       ) : (
-        <Button onClick={openGuestsInput} className="max-sm:w-full">
+        <Button onClick={openGuestsInput} className="max-sm:w-full" disabled={!isFormValid}>
           Continuar
           <ArrowRight className='size-5' />
         </Button>
