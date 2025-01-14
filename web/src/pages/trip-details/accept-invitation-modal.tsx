@@ -32,22 +32,22 @@ export function AccceptInvitationModal({ closeAcceptInvitationModal }: AccceptIn
   const { participantId } = useParams()
   const [participant, setParticipant] = useState<Participant | undefined>()
   const [trip, setTrip] = useState<Trip | undefined>()
-  
+
   useEffect(() => {
     api.get(`/participants/${participantId}`).then(response => setParticipant(response.data.participant))
   }, [participantId])
 
   const tripId = participant?.trip_id
-  
+
   useEffect(() => {
-      api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
-    }, [tripId])
-  
+    api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
+  }, [tripId])
+
   const displayedDate = trip ? format(trip.starts_at, "d").concat(' a ').concat(format(trip.ends_at, "d' de 'LLLL' de 'yyyy", { locale: ptBR })) : null
 
   async function confirmParticipant(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    
+
     const data = new FormData(event.currentTarget)
 
     const name = data.get('name')?.toString()
@@ -56,7 +56,7 @@ export function AccceptInvitationModal({ closeAcceptInvitationModal }: AccceptIn
     const is_owner = false
 
     await api.put(`/participants/${participantId}/confirm`, { name, email, is_confirmed, is_owner })
-    
+
     closeAcceptInvitationModal()
     navigate(`/trips/${tripId}`)
   }
