@@ -74,27 +74,25 @@ export function CreateTripPage() {
 
   async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsLoading(true)
 
-    try {
-      if (!destination) {
-        return
-      }
+    if (!destination) {
+      return
+    }
 
-      if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
-        return
-      }
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      return
+    }
 
-      /* if (emailsToInvite.length === 0) {
-        return
+    /* if (emailsToInvite.length === 0) {
+      return
       } */
 
-      if (!ownerName || !ownerEmail) {
-        return setError("Por favor, preencha todos os campos")
-      }
+    if (!ownerName || !ownerEmail) {
+      return setError("Por favor, preencha todos os campos")
+    }
 
-      setError(null)
-
+    try {
+      setIsLoading(true)
       const response = await api.post('/trips', {
         destination,
         starts_at: eventStartAndEndDates.from,
@@ -106,6 +104,7 @@ export function CreateTripPage() {
 
       const { tripId } = response.data
       enableBodyScroll()
+      setError(null)
       navigate(`/trips/${tripId}`)
     } catch (error) {
       console.log(error)

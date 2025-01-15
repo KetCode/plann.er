@@ -38,7 +38,6 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
 
   async function updateDestinationDate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsLoading(true)
 
     const data = new FormData(event.currentTarget)
 
@@ -47,6 +46,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
     const ends_at = eventStartAndEndDates?.to
 
     try {
+      setIsLoading(true)
       await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
       enableBodyScroll()
     } catch (error) {

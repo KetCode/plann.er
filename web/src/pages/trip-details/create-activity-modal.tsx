@@ -16,20 +16,20 @@ export function CreateActivityModal({ closeCreateActivityModal }: CreateActivity
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsLoading(true)
 
     const data = new FormData(event.currentTarget)
 
     const title = data.get('title')?.toString()
     const occurs_at = data.get('occurs_at')?.toString()
 
-    try {
-      if (!title || !occurs_at) {
-        return setError("Por favor, preencha todos os campos")
-      } else {
-        setError(null)
-      }
+    if (!title || !occurs_at) {
+      return setError("Por favor, preencha todos os campos")
+    } else {
+      setError(null)
+    }
 
+    try {
+      setIsLoading(true)
       await api.post(`/trips/${tripId}/activities`, { title, occurs_at })
 
       enableBodyScroll()
