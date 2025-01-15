@@ -13,9 +13,10 @@ interface ConfirmTripModalProps {
   setOwnerEmail: (email: string) => void
   createTrip: (event: FormEvent<HTMLFormElement>) => void
   error: string | null | undefined
+  isLoading: boolean
 }
 
-export function ConfirmTripModal({ closeConfirmTripModal, createTrip, destination, starts_at, ends_at, setOwnerName, setOwnerEmail, error }: ConfirmTripModalProps) {
+export function ConfirmTripModal({ closeConfirmTripModal, createTrip, destination, starts_at, ends_at, setOwnerName, setOwnerEmail, error, isLoading }: ConfirmTripModalProps) {
 
   const displayedDate = format(starts_at as Date, "d").concat(' a ').concat(format(ends_at as Date, "d' de 'LLLL' de 'yyyy", { locale: ptBR }))
 
@@ -30,6 +31,7 @@ export function ConfirmTripModal({ closeConfirmTripModal, createTrip, destinatio
       buttonText="Confirmar criação da viagem"
       closeButton={closeConfirmTripModal}
       submitButton={createTrip}
+      isLoading={isLoading}
     >
       <div className='px-4 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
         <User className='text-zinc-400 size-5' />

@@ -21,6 +21,7 @@ export function CreateTripPage() {
   const [ownerEmail, setOwnerEmail] = useState('')
   const [emailsToInvite, setEmailsToInvite] = useState(['kesse.matias@gmail.com', 'john@test.com'])
   const [error, setError] = useState<string | null>()
+  const [isLoading, setIsLoading] = useState(false)
 
   function openGuestsInput() {
     setIsGuestsInputOpen(true)
@@ -73,37 +74,44 @@ export function CreateTripPage() {
 
   async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsLoading(true)
 
-    if (!destination) {
-      return
+    try {
+      if (!destination) {
+        return
+      }
+
+      if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+        return
+      }
+
+      /* if (emailsToInvite.length === 0) {
+        return
+      } */
+
+      if (!ownerName || !ownerEmail) {
+        return setError("Por favor, preencha todos os campos")
+      }
+
+      setError(null)
+
+      const response = await api.post('/trips', {
+        destination,
+        starts_at: eventStartAndEndDates.from,
+        ends_at: eventStartAndEndDates.to,
+        emails_to_invite: emailsToInvite,
+        owner_name: ownerName,
+        owner_email: ownerEmail
+      })
+
+      const { tripId } = response.data
+      enableBodyScroll()
+      navigate(`/trips/${tripId}`)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
     }
-
-    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
-      return
-    }
-
-    /* if (emailsToInvite.length === 0) {
-      return
-    } */
-
-    if (!ownerName || !ownerEmail) {
-      return setError("Por favor, preencha todos os campos")
-    }
-
-    setError(null)
-
-    const response = await api.post('/trips', {
-      destination,
-      starts_at: eventStartAndEndDates.from,
-      ends_at: eventStartAndEndDates.to,
-      emails_to_invite: emailsToInvite,
-      owner_name: ownerName,
-      owner_email: ownerEmail
-    })
-
-    const { tripId } = response.data
-    enableBodyScroll()
-    navigate(`/trips/${tripId}`)
   }
 
   return (
@@ -158,6 +166,7 @@ export function CreateTripPage() {
           setOwnerName={setOwnerName}
           setOwnerEmail={setOwnerEmail}
           error={error}
+          isLoading={isLoading}
         />
       )}
     </div>
