@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode } from "react"
 import { Button } from "./button"
 import { X } from "lucide-react"
+import { Loading } from "./loading"
 
 interface ModalProps {
   title: string
@@ -9,9 +10,10 @@ interface ModalProps {
   closeButton?: () => void
   submitButton: (event: FormEvent<HTMLFormElement>) => void
   children?: ReactNode
+  isLoading?: boolean
 }
 
-export function Modal({title, description, buttonText, closeButton, submitButton, children}: ModalProps) {
+export function Modal({ title, description, buttonText, closeButton, submitButton, children, isLoading }: ModalProps) {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center !mt-0">
       <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5 m-3'>
@@ -27,8 +29,8 @@ export function Modal({title, description, buttonText, closeButton, submitButton
 
         <form onSubmit={submitButton} className='space-y-3'>
           {children}
-          <Button type='submit' size="full">
-            {buttonText}
+          <Button type='submit' size="full" disabled={isLoading}>
+            {isLoading ? <Loading /> : buttonText}
           </Button>
         </form>
       </div>
