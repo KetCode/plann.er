@@ -1,6 +1,6 @@
 import { CheckCircle2, CircleDashed, UserCog } from "lucide-react";
 import { Button } from "../../components/button";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
 import { UpdateGuestsModal } from "./update-guests-modal";
@@ -16,9 +16,8 @@ interface Participant {
 export function Guests() {
   const { tripId } = useParams()
   const [participants, setParticipants] = useState<Participant[]>([])
+  const [emailList, setEmailList] = useState<string[]>([])
   const [isUpdateGuestsModalOpen, setIsUpdateGuestsModalOpen] = useState(false)
-
-  const emailList = participants.map(participant => participant.email)
   
   function openUpdateGuestsModal(){
     setIsUpdateGuestsModalOpen(true)
@@ -28,12 +27,38 @@ export function Guests() {
   function closeUpdateGuestsModal(){
     setIsUpdateGuestsModalOpen(false)
     enableBodyScroll()
-    location.reload()
+  }
+
+  async function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+    const email = data.get('email')?.toString()
+
+    if (!email) {
+      return
+    }
+
+    if (emailList.includes(email)) {
+      return
+    }
+
+    setEmailList(prevList => [...prevList, email])
+
+    await api.post(`/trips/${tripId}/invites`, {
+      name: null,
+      email,
+      is_confirmed: false,
+      is_owner: false,
+    })
   }
 
   useEffect(() => {
     api.get(`/trips/${tripId}/participants`).then(response => setParticipants(response.data.participants))
-  }, [tripId])
+
+    const isEmailList = participants.map(participant => participant.email)
+    setEmailList(isEmailList)
+  }, [tripId, participants])
 
   return (
     <div className="space-y-6">
@@ -63,7 +88,7 @@ export function Guests() {
       </Button>
 
       {isUpdateGuestsModalOpen && (
-        <UpdateGuestsModal emailList={emailList} closeUpdateGuestsModal={closeUpdateGuestsModal} />
+        <UpdateGuestsModal emailList={emailList} closeUpdateGuestsModal={closeUpdateGuestsModal} addNewEmailToInvite={addNewEmailToInvite} />
       )}
     </div>
   )

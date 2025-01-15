@@ -7,9 +7,10 @@ import { useParams } from "react-router-dom"
 interface UpdateGuestsModalProps {
   emailList: string[]
   closeUpdateGuestsModal: () => void
+  addNewEmailToInvite: (event: FormEvent<HTMLFormElement>) => void
 }
 
-export function UpdateGuestsModal({ emailList, closeUpdateGuestsModal }: UpdateGuestsModalProps) {
+export function UpdateGuestsModal({ emailList, closeUpdateGuestsModal, addNewEmailToInvite }: UpdateGuestsModalProps) {
   const { tripId } = useParams()
   const [email, setEmail] = useState<string>("")
   const [isEmailList, setIsEmailList] = useState<string[]>(emailList)
@@ -19,35 +20,15 @@ export function UpdateGuestsModal({ emailList, closeUpdateGuestsModal }: UpdateG
     if (isEmailList.includes(email ?? "")) {
       setError("Este e-mail já foi adicionado")
       event.preventDefault()
+    } else if (!email) {
+      event.preventDefault()
+      return
     } else {
       setError(null)
       addNewEmailToInvite(event)
+      setIsEmailList(prevList => [...prevList, email])
+      setEmail("")
     }
-  }
-
-  async function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    const data = new FormData(event.currentTarget)
-    const email = data.get('email')?.toString()
-
-    if (!email) {
-      return
-    }
-
-    if (isEmailList.includes(email)) {
-      return
-    }
-
-    setIsEmailList(prevList => [...prevList, email])
-    setEmail("")
-
-    await api.post(`/trips/${tripId}/invites`, {
-      name: null,
-      email,
-      is_confirmed: false,
-      is_owner: false,
-    })
   }
 
   async function removeParticipantFromTrip(tripId: string | undefined, email:string) {
@@ -84,6 +65,8 @@ export function UpdateGuestsModal({ emailList, closeUpdateGuestsModal }: UpdateG
 
         <div className='w-full h-px bg-zinc-800' />
 
+        {error && <p className="text-red-700 text-sm mt-2">{error}</p>}
+
         <form onSubmit={handleSubmit} className='p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
           <div className='sm:px-2 flex items-center flex-1 gap-2'>
             <AtSign className='text-zinc-400 size-5' />
@@ -95,8 +78,6 @@ export function UpdateGuestsModal({ emailList, closeUpdateGuestsModal }: UpdateG
             <Plus className='size-5' />
           </Button>
         </form>
-
-        {error && <p className="text-red-700 text-sm mt-2">{error}</p>}
       </div>
     </div>
   )
