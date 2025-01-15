@@ -23,6 +23,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
     from: new Date(starts_at as string),
     to: new Date(ends_at as string),
   })
+  const [isLoading, setIsLoading] = useState(false)
   const today = new Date()
 
   function openDatePicker() {
@@ -37,6 +38,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
 
   async function updateDestinationDate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsLoading(true)
 
     const data = new FormData(event.currentTarget)
 
@@ -44,14 +46,19 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
     const starts_at = eventStartAndEndDates?.from
     const ends_at = eventStartAndEndDates?.to
 
-    await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
-
-    enableBodyScroll()
-    location.reload()
+    try {
+      await api.put(`/trips/${tripId}/update`, { destination, starts_at, ends_at })
+      enableBodyScroll()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+      closeUpdateDestinationDateModal()
+    }
   }
 
   return (
-    <Modal title="Alterar local e data" description="Todos convidados podem visualizar as alterações." buttonText="Salvar local e data" closeButton={closeUpdateDestinationDateModal} submitButton={updateDestinationDate}>
+    <Modal title="Alterar local e data" description="Todos convidados podem visualizar as alterações." buttonText={"Salvar local e data"} closeButton={closeUpdateDestinationDateModal} submitButton={updateDestinationDate} isLoading={isLoading}>
       <div className='px-4 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
         <MapPin className='text-zinc-400 size-5' />
         <input name='destination' value={isDestination} onChange={event => setIsDestination(event.target.value)} placeholder="Para onde você vai?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />

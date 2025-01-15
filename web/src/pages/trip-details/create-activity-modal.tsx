@@ -12,29 +12,37 @@ interface CreateActivityModalProps {
 export function CreateActivityModal({ closeCreateActivityModal }: CreateActivityModalProps) {
   const { tripId } = useParams()
   const [error, setError] = useState<string | null>()
+  const [isLoading, setIsLoading] = useState(false)
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsLoading(true)
 
     const data = new FormData(event.currentTarget)
 
     const title = data.get('title')?.toString()
     const occurs_at = data.get('occurs_at')?.toString()
 
-    if (!title || !occurs_at) {
-      return setError("Por favor, preencha todos os campos")
-    } else {
-      setError(null)
+    try {
+      if (!title || !occurs_at) {
+        return setError("Por favor, preencha todos os campos")
+      } else {
+        setError(null)
+      }
+
+      await api.post(`/trips/${tripId}/activities`, { title, occurs_at })
+
+      enableBodyScroll()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+      closeCreateActivityModal()
     }
-
-    await api.post(`/trips/${tripId}/activities`, { title, occurs_at })
-
-    enableBodyScroll()
-    location.reload()
   }
 
   return (
-    <Modal title="Cadastrar atividade" description="Todos convidados podem visualizar as atividades." buttonText="Salvar atividade" closeButton={closeCreateActivityModal} submitButton={createActivity} >
+    <Modal title="Cadastrar atividade" description="Todos convidados podem visualizar as atividades." buttonText="Salvar atividade" closeButton={closeCreateActivityModal} submitButton={createActivity} isLoading={isLoading} >
       <div className='px-4 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
         <Tag className='text-zinc-400 size-5' />
         <input name='title' placeholder="Qual a atividade?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
