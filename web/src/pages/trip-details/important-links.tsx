@@ -1,10 +1,11 @@
 import { Link2, Plus } from "lucide-react";
 import { Button } from "../../components/button";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { CreateLinkModal } from "./create-link-modal";
 import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
+import { isValidUrl } from "../../components/validateInput";
 
 interface Links {
   id: string
@@ -16,6 +17,7 @@ export function ImportantLinks() {
   const { tripId } = useParams()
   const [links, setLinks] = useState<Links[]>([])
   const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false)
+  const [error, setError] = useState<string | null>()
 
   function openCreateLinkModal() {
     setIsCreateLinkModalOpen(true)
@@ -25,6 +27,29 @@ export function ImportantLinks() {
   function closeCreateLinkModal() {
     setIsCreateLinkModalOpen(false)
     enableBodyScroll()
+  }
+
+  async function createLink(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+
+    const title = data.get('title')?.toString()
+    const url = data.get('url')?.toString()
+
+    if (!title || !url || !isValidUrl(url)) {
+      return setError("Por favor, preencha todos os campos corretamente")
+    }
+
+
+    await api.post(`/trips/${tripId}/link`, { title, url })
+
+    // atualiza lista de links
+    const response = await api.get(`/trips/${tripId}/link`)
+    setLinks(response.data.links)
+
+    closeCreateLinkModal()
+    setError(null)
   }
 
   useEffect(() => {
@@ -55,7 +80,7 @@ export function ImportantLinks() {
       </Button>
 
       {isCreateLinkModalOpen && (
-        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} />
+        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} createLink={createLink} error={error} />
       )}
     </div>
 
