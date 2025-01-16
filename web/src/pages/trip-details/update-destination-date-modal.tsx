@@ -53,7 +53,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
       console.error(error)
     } finally {
       setIsLoading(false)
-      closeUpdateDestinationDateModal()
+      location.reload()
     }
   }
 

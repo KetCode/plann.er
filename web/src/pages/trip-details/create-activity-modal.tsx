@@ -37,7 +37,7 @@ export function CreateActivityModal({ closeCreateActivityModal }: CreateActivity
       console.log(error)
     } finally {
       setIsLoading(false)
-      closeCreateActivityModal()
+      location.reload()
     }
   }
 
