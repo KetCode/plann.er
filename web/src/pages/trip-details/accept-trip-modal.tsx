@@ -4,14 +4,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-
-interface Trip {
-  id: string
-  destination: string
-  starts_at: string
-  ends_at: string
-  is_confirmed: boolean
-}
+import { TripDetails } from ".";
 
 interface AcceptTripModalProps {
   closeAcceptTripModal: () => void
@@ -20,22 +13,22 @@ interface AcceptTripModalProps {
 export function AcceptTripModal({ closeAcceptTripModal }: AcceptTripModalProps) {
   const navigate = useNavigate()
   const { tripId } = useParams()
-  const [trip, setTrip] = useState<Trip | undefined>()
-  
+  const [trip, setTrip] = useState<TripDetails | undefined>()
+
   useEffect(() => {
-      api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
-    }, [tripId])
-  
+    api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
+  }, [tripId])
+
   const displayedDate = trip ? format(trip.starts_at, "d").concat(' a ').concat(format(trip.ends_at, "d' de 'LLLL' de 'yyyy", { locale: ptBR })) : null
 
   function handleClose() {
     closeAcceptTripModal()
     navigate(`/trips/${tripId}`)
   }
-  
+
   function confirmTrip() {
     api.patch(`/trips/${tripId}/confirm`)
-    
+
     handleClose()
   }
 

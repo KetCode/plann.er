@@ -6,18 +6,11 @@ import { api } from "../../lib/axios";
 import { format } from "date-fns";
 import { UpdateDestinationDateModal } from "./update-destination-date-modal";
 import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
-
-interface Trip {
-  id: string
-  destination: string
-  starts_at: string
-  ends_at: string
-  is_confirmed: boolean
-}
+import { TripDetails } from ".";
 
 export function DestinationDateHeader() {
   const { tripId } = useParams()
-  const [trip, setTrip] = useState<Trip | undefined>()
+  const [trip, setTrip] = useState<TripDetails | undefined>()
   const [isUpdateDestinationDateModalOpen, setIsUpdateDestinationDateModalOpen] = useState(false)
 
   function openUpdateDestinationDateModal() {

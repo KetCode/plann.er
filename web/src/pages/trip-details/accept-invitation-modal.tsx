@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { TripDetails } from ".";
 
 interface Participant {
   id: string
@@ -15,14 +16,6 @@ interface Participant {
   trip_id: string
 }
 
-interface Trip {
-  id: string
-  destination: string
-  starts_at: string
-  ends_at: string
-  is_confirmed: boolean
-}
-
 interface AccceptInvitationModalProps {
   closeAcceptInvitationModal: () => void
 }
@@ -31,7 +24,7 @@ export function AccceptInvitationModal({ closeAcceptInvitationModal }: AccceptIn
   const navigate = useNavigate()
   const { participantId } = useParams()
   const [participant, setParticipant] = useState<Participant | undefined>()
-  const [trip, setTrip] = useState<Trip | undefined>()
+  const [trip, setTrip] = useState<TripDetails | undefined>()
 
   useEffect(() => {
     api.get(`/participants/${participantId}`).then(response => setParticipant(response.data.participant))
