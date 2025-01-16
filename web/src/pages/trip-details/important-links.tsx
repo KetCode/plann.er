@@ -18,6 +18,7 @@ export function ImportantLinks() {
   const [links, setLinks] = useState<Links[]>([])
   const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false)
   const [error, setError] = useState<string | null>()
+  const [isLoading, setIsLoading] = useState(false)
 
   function openCreateLinkModal() {
     setIsCreateLinkModalOpen(true)
@@ -41,15 +42,21 @@ export function ImportantLinks() {
       return setError("Por favor, preencha todos os campos corretamente")
     }
 
+    try {
+      setIsLoading(true)
+      await api.post(`/trips/${tripId}/link`, { title, url })
 
-    await api.post(`/trips/${tripId}/link`, { title, url })
+      // atualiza lista de links
+      const response = await api.get(`/trips/${tripId}/link`)
+      setLinks(response.data.links)
 
-    // atualiza lista de links
-    const response = await api.get(`/trips/${tripId}/link`)
-    setLinks(response.data.links)
-
-    closeCreateLinkModal()
-    setError(null)
+      closeCreateLinkModal()
+      setError(null)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -80,7 +87,7 @@ export function ImportantLinks() {
       </Button>
 
       {isCreateLinkModalOpen && (
-        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} createLink={createLink} error={error} />
+        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} createLink={createLink} error={error} isLoading={isLoading} />
       )}
     </div>
 

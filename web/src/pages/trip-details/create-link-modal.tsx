@@ -6,11 +6,12 @@ interface CreateLinkModalProps {
   closeCreateLinkModal: () => void
   createLink: (event: FormEvent<HTMLFormElement>) => void
   error: string | null | undefined
+  isLoading: boolean
 }
 
-export function CreateLinkModal({ closeCreateLinkModal, createLink, error }: CreateLinkModalProps) {
+export function CreateLinkModal({ closeCreateLinkModal, createLink, error, isLoading }: CreateLinkModalProps) {
   return (
-    <Modal title="Cadastrar link" description="Todos convidados podem visualizar os links importantes." buttonText="Salvar link" closeButton={closeCreateLinkModal} submitButton={createLink}>
+    <Modal title="Cadastrar link" description="Todos convidados podem visualizar os links importantes." buttonText="Salvar link" closeButton={closeCreateLinkModal} submitButton={createLink} isLoading={isLoading}>
       <div className='px-4 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
         <Tag className='text-zinc-400 size-5' />
         <input name='title' placeholder="Título do link" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
