@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { UpdateDestinationDateModal } from "./update-destination-date-modal";
 import { disableBodyScroll, enableBodyScroll } from "@blro/body-scroll-lock";
 import { TripDetails } from ".";
@@ -27,7 +28,7 @@ export function DestinationDateHeader() {
     api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
   }, [tripId])
 
-  const displayedDate = trip ? format(trip.starts_at, "d' de 'LLL").concat(' até ').concat(format(trip.ends_at, "d' de 'LLL")) : null
+  const displayedDate = trip ? format(trip.starts_at, "d' de 'LLL", { locale: ptBR }).concat(' até ').concat(format(trip.ends_at, "d' de 'LLL", { locale: ptBR })) : null
 
   return (
     <div className="px-4 max-sm:py-3 h-16 sm:flex max-sm:h-[8.5rem] rounded-xl bg-zinc-900 shadow-shape items-center justify-between">

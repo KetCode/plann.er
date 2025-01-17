@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { api } from "../../lib/axios";
 import { DateRange, DayPicker } from "react-day-picker";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { enableBodyScroll } from "@blro/body-scroll-lock";
 
 interface UpdateDestinationDateModalProps {
@@ -34,7 +35,7 @@ export function UpdateDestinationDateModal({ destination, displayedDate, starts_
     return setIsDatePickerOpen(false)
   }
 
-  const displayedDateUpdate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL")) : displayedDate
+  const displayedDateUpdate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to ? format(eventStartAndEndDates.from, "d' de 'LLL", { locale: ptBR }).concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL", { locale: ptBR })) : displayedDate
 
   async function updateDestinationDate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
