@@ -41,12 +41,12 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [x] Tela inicial para escolher data, local e convidar amigos
 - [x] Tela inicial para listar atividades e listar links
 - [x] Adicionar atividades
-- [ ] Adicionar links
-- [ ] Receber email para confirmar a nova viagem
-- [ ] Convidados são direcionados para um modal de confirmação de nome e email
-- [ ] Checar se os participantes aceitaram o convite
-- [ ] Novos participantes podem ser convidados após a criação do plano de viagem
-- [ ] Personalizar popup de erro e sucesso
+- [x] Adicionar links
+- [x] Receber email para confirmar a nova viagem
+- [x] Convidados são direcionados para um modal de confirmação de nome e email
+- [x] Checar se os participantes aceitaram o convite
+- [x] Novos participantes podem ser convidados após a criação do plano de viagem
+- [x] Atualizar dados da pagina em tempo real
 
 ### 📜 Licença
 
