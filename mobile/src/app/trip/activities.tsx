@@ -55,7 +55,9 @@ export function Activities({ tripDetails }: Props) {
     let formattedHour = text.replace(/[^0-9:]/g, "");
 
     // Se já tiver 2 números e não houver o ":", adicionar o ":"
-    if (formattedHour.length > 2 && formattedHour.indexOf(":") === -1) {
+    if (formattedHour.length === 2) {
+      formattedHour = formattedHour + ":00"
+    } else if (formattedHour.length > 2 && formattedHour.indexOf(":") === -1) {
       formattedHour = formattedHour.slice(0, 2) + ":" + formattedHour.slice(2, 4);
     }
 
