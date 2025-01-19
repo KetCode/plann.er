@@ -32,6 +32,7 @@ enum MODAL {
 export default function Index() {
     const [stepForm, setStepForm] = useState(StepForm.TRIP_DETAILS)
     const [destination, setDestination] = useState("")
+    const [error, setError] = useState<string | null>()
 
     // DATA
     const [selectedDates, setSelectedDates] = useState({} as DatesSelected)
@@ -53,18 +54,20 @@ export default function Index() {
 
     function handleNextStepForm() {
         if (destination.trim().length === 0 || !selectedDates.startsAt || !selectedDates.endsAt) {
-            return Alert.alert("Detalhes da viagem", "Preencha todos os informações da viagem para seguir.")
+            return setError("Preencha todos os informações da viagem para seguir.")
         }
 
         if (destination.length < 4) {
-            return Alert.alert("Detalhes da viagem", "O destino deve ter pelo menos 4 caracteres.")
+            return setError("O destino deve ter pelo menos 4 caracteres.")
         }
 
         if (stepForm === StepForm.TRIP_DETAILS) {
+            setError(null)
             return setStepForm(StepForm.ADD_EMAIL)
         }
 
         setShowModal(MODAL.OWNER)
+        setError(null)
     }
 
     function handleSelectDate(selectedDay: DateData) {
@@ -83,7 +86,7 @@ export default function Index() {
 
     function handleAddEmail() {
         if (!validateInput.email(emailToInvite)) {
-            return Alert.alert("Convidado", "E-mail inválido!")
+            return setError("E-mail inválido!")
         }
 
         const emailAlreadyExists = emailsToInvite.find(
@@ -91,11 +94,12 @@ export default function Index() {
         )
 
         if (emailAlreadyExists) {
-            return Alert.alert("Convidado", "E-mail já foi adicionado!")
+            return setError("E-mail já foi adicionado!")
         }
 
         setEmailsToInvite((prevState) => [...prevState, emailToInvite])
         setEmailToInvite("")
+        setError(null)
     }
 
     async function saveTrip(tripId: string) {
@@ -103,19 +107,20 @@ export default function Index() {
             await tripStorage.save(tripId)
             router.navigate("/trip/" + tripId)
         } catch (error) {
-            Alert.alert(
-                "Salvar viagem",
-                "Não foi possível salvar o id da viagem no dispositivo."
-            )
+            setError("Não foi possível salvar o id da viagem no dispositivo.")
             console.log(error)
         }
     }
 
     async function createTrip() {
-        setShowModal(MODAL.NONE)
+        if (!ownerName || !ownerEmail) {
+            return setError("Preencha as informações do criador da viagem para seguir.")
+        }
 
         try {
             setIsCreatingTrip(true)
+            setError(null)
+            setShowModal(MODAL.NONE)
 
             const newTrip = await tripServer.create({
                 destination,
@@ -182,7 +187,12 @@ export default function Index() {
                 {stepForm === StepForm.ADD_EMAIL && (
                     <View className="gap-1.5">
                         <View className="border-b pb-3 border-zinc-800">
-                            <Button variant="secondary" onPress={() => setStepForm(StepForm.TRIP_DETAILS)}>
+                            <Button
+                                variant="secondary"
+                                onPress={() => {
+                                    setStepForm(StepForm.TRIP_DETAILS)
+                                    setError(null)
+                                }}>
                                 <Button.Title>Alterar local/data</Button.Title>
                                 <Settings2 color={colors.zinc[200]} size={20} />
                             </Button>
@@ -197,6 +207,8 @@ export default function Index() {
                         </Input>
                     </View>
                 )}
+
+                {error && <Text className="text-red-700 text-sm mb-2">{error}</Text>}
 
                 <Button onPress={handleNextStepForm} isLoading={isCreatingTrip}>
                     <Button.Title>{stepForm === StepForm.TRIP_DETAILS ? "Continuar" : "Confirmar Viagem"}</Button.Title>
@@ -216,7 +228,15 @@ export default function Index() {
                 </View>
             </Modal>
 
-            <Modal title="Selecionar convidados" subtitle="Os convidados irão receber e-mails para confirmar a participação na viagem." visible={showModal === MODAL.GUESTS} onClose={() => setShowModal(MODAL.NONE)}>
+            <Modal
+                title="Selecionar convidados"
+                subtitle="Os convidados irão receber e-mails para confirmar a participação na viagem."
+                visible={showModal === MODAL.GUESTS}
+                onClose={() => {
+                    setShowModal(MODAL.NONE)
+                    setError(null)
+                }}
+            >
                 <View className="my-2 flex-wrap gap-2 border-b border-zinc-800 pt-2 pb-5 items-start">
                     {emailsToInvite.length > 0 ? (emailsToInvite.map((email) => (
                         <GuestEmail key={email} email={email} onRemove={() => handleRemoveEmail(email)} />
@@ -229,22 +249,26 @@ export default function Index() {
                         <Input.Field placeholder="Digite o e-mail do convidado" keyboardType="email-address" onChangeText={(text) => setEmailToInvite(text.toLowerCase())} value={emailToInvite} returnKeyType="send" onSubmitEditing={handleAddEmail} />
                     </Input>
 
+                    {error && <Text className="text-red-700 text-sm">{error}</Text>}
+
                     <Button onPress={handleAddEmail}>
                         <Button.Title>Convidar</Button.Title>
                     </Button>
                 </View>
             </Modal>
 
-            <Modal 
-                title="Confirmar criação da viagem" 
+            <Modal
+                title="Confirmar criação da viagem"
                 subtitle={
                     <>
-                    Para concluir a criação da viagem para <Text className="font-semibold text-zinc-100">{destination}</Text> nas datas de <Text className="font-semibold text-zinc-100">{dayjs(selectedDates.startsAt?.dateString).date()} a{" "}{dayjs(selectedDates.endsAt?.dateString).date()} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("MMMM")} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("YYYY")}</Text> preencha seus dados abaixo:
+                        Para concluir a criação da viagem para <Text className="font-semibold text-zinc-100">{destination}</Text> nas datas de <Text className="font-semibold text-zinc-100">{dayjs(selectedDates.startsAt?.dateString).date()} a{" "}{dayjs(selectedDates.endsAt?.dateString).date()} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("MMMM")} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("YYYY")}</Text> preencha seus dados abaixo:
                     </>
                 }
-                visible={showModal === MODAL.OWNER} 
-                onClose={() => setShowModal(MODAL.NONE)}>
-
+                visible={showModal === MODAL.OWNER}
+                onClose={() => {
+                    setShowModal(MODAL.NONE)
+                    setError(null)
+                }}>
                 <View className="gap-4 mt-4">
                     <Input variant="secondary">
                         <User color={colors.zinc[400]} size={20} />
@@ -254,6 +278,8 @@ export default function Index() {
                         <Mail color={colors.zinc[400]} size={20} />
                         <Input.Field placeholder="Seu e-mail pessoal" keyboardType="email-address" onChangeText={setOwnerEmail} />
                     </Input>
+
+                    {error && <Text className="text-red-700 text-sm">{error}</Text>}
 
                     <Button onPress={createTrip}>
                         <Button.Title>Confirmar criação da viagem</Button.Title>

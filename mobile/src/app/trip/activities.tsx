@@ -44,6 +44,7 @@ export function Activities({ tripDetails }: Props) {
   const [activityTitle, setActivityTitle] = useState("")
   const [activityDate, setActivityDate] = useState("")
   const [activityHour, setActivityHour] = useState("")
+  const [error, setError] = useState<string | null>()
 
   // LISTS
   const [tripActivities, setTripActivities] = useState<TripActivities[]>([])
@@ -76,10 +77,11 @@ export function Activities({ tripDetails }: Props) {
       const [hours, minutes] = activityHour.split(":").map((val) => parseInt(val, 10))
 
       if (!activityTitle || !activityDate || !activityHour) {
-        return Alert.alert("Cadastrar atividade", "Preencha todos os campos!")
+        return setError("Preencha todos os campos!")
       }
 
       setIsCreatingActivity(true)
+      setError(null)
 
       await activitiesServer.create({
         tripId: tripDetails.id,
@@ -265,6 +267,8 @@ export function Activities({ tripDetails }: Props) {
             </Input>
           </View>
         </View>
+
+        {error && <Text className="text-red-700 text-sm mb-3">{error}</Text>}
 
         <Button
           onPress={handleCreateTripActivity}

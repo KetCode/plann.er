@@ -43,6 +43,7 @@ export default function Trip() {
   const [destination, setDestination] = useState("")
   const [guestName, setGuestName] = useState("")
   const [guestEmail, setGuestEmail] = useState("")
+  const [error, setError] = useState<string | null>()
 
   const tripParams = useLocalSearchParams<{
     id: string
@@ -132,13 +133,11 @@ export default function Trip() {
       }
 
       if (!destination || !selectedDates.startsAt || !selectedDates.endsAt) {
-        return Alert.alert(
-          "Atualizar viagem",
-          "Lembre-se de, além de preencher o destino, selecione data de início e fim da viagem."
-        )
+        return setError("Lembre-se de, além de preencher o destino, selecione data de início e fim da viagem.")
       }
 
       setIsUpdatingTrip(true)
+      setError(null)
 
       await tripServer.update({
         id: tripParams.id,
@@ -163,17 +162,15 @@ export default function Trip() {
       }
 
       if (!guestName.trim() || !guestEmail.trim()) {
-        return Alert.alert(
-          "Confirmação",
-          "Preencha nome e e-mail para confirmar a viagem!"
-        )
+        return setError("Preencha nome e e-mail para confirmar a viagem!")
       }
 
       if (!validateInput.email(guestEmail.trim())) {
-        return Alert.alert("Confirmação", "E-mail inválido!")
+        return setError("E-mail inválido!")
       }
 
       setIsConfirmingAttendance(true)
+      setError(null)
 
       await participantsServer.confirmTripByParticipantId({
         id: tripParams.participant,
@@ -188,9 +185,10 @@ export default function Trip() {
       setShowModal(MODAL.NONE)
     } catch (error) {
       console.log(error)
-      Alert.alert("Confirmação", "Não foi possível confirmar!")
+      setError("Não foi possível confirmar!")
     } finally {
       setIsConfirmingAttendance(false)
+      setError(null)
     }
   }
 
@@ -309,6 +307,8 @@ export default function Trip() {
           </Input>
         </View>
 
+        {error && <Text className="text-red-700 text-sm mb-2">{error}</Text>}
+
         <Button onPress={handleUpdateTrip} isLoading={isUpdatingTrip}>
           <Button.Title>Atualizar</Button.Title>
         </Button>
@@ -365,6 +365,8 @@ export default function Trip() {
               onChangeText={setGuestEmail}
             />
           </Input>
+
+          {error && <Text className="text-red-700 text-sm mb-2">{error}</Text>}
 
           <Button
             isLoading={isConfirmingAttendance}
