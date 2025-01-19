@@ -58,7 +58,7 @@ export default function Trip() {
       dates[dateString] = { selected: true }
       currentDate = currentDate.add(1, 'day')
     }
-  
+
     return dates;
   }
 
@@ -91,14 +91,14 @@ export default function Trip() {
       })
 
       setSelectedDates({
-        startsAt: { 
+        startsAt: {
           day: dayjs(trip.starts_at).date(),
           month: dayjs(trip.starts_at).month() + 1,
           year: dayjs(trip.starts_at).year(),
           timestamp: dayjs(trip.starts_at).valueOf(),
           dateString: dayjs(trip.starts_at).format("YYYY-MM-DD"),
         },
-        endsAt: { 
+        endsAt: {
           day: dayjs(trip.ends_at).date(),
           month: dayjs(trip.ends_at).month() + 1,
           year: dayjs(trip.ends_at).year(),
@@ -282,7 +282,7 @@ export default function Trip() {
 
       <Modal
         title="Atualizar viagem"
-        subtitle="Somente quem criou a viagem pode editar."
+        subtitle="Todos convidados podem visualizar as alterações."
         visible={showModal === MODAL.UPDATE_TRIP}
         onClose={() => setShowModal(MODAL.NONE)}
       >
@@ -341,9 +341,9 @@ export default function Trip() {
         title="Confirmar presença"
         subtitle={
           <>
-          Você foi convidado(a) para participar de uma viagem para <Text className="font-semibold text-zinc-100">{destination}</Text> nas datas de <Text className="font-semibold text-zinc-100">{dayjs(selectedDates.startsAt?.dateString).date()} a{" "}{dayjs(selectedDates.endsAt?.dateString).date()} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("MMMM")} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("YYYY")}</Text>.
-          {"\n\n"}
-          Para confirmar sua presença na viagem, preencha os dados abaixo:
+            Você foi convidado(a) para participar de uma viagem para <Text className="font-semibold text-zinc-100">{destination}</Text> nas datas de <Text className="font-semibold text-zinc-100">{dayjs(selectedDates.startsAt?.dateString).date()} a{" "}{dayjs(selectedDates.endsAt?.dateString).date()} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("MMMM")} de{" "}{dayjs(selectedDates.endsAt?.dateString).format("YYYY")}</Text>.
+            {"\n\n"}
+            Para confirmar sua presença na viagem, preencha os dados abaixo:
           </>
         }
         visible={showModal === MODAL.CONFIRM_ATTENDANCE}
