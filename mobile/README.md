@@ -47,7 +47,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [x] Convidados são direcionados para um modal de confirmação de nome e email
 - [x] Checar se os participantes aceitaram o convite
 - [x] Novos participantes podem ser convidados após a criação do plano de viagem
-- [ ] Personalizar popup de erro e sucesso
+- [x] Personalizar popup de erro e sucesso
 
 ### 📜 Licença
 
